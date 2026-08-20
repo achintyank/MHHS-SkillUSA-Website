@@ -2,10 +2,6 @@
 
 Plain HTML, CSS and JavaScript. No build step, no Node, no npm.
 
-The site is a rebrand of the [MHHS HOSA chapter site](https://mhhshosa10.github.io/)
-architecture for SkillsUSA: same layout, components and motion, with the SkillsUSA
-palette, the chevron motif, and content written for the SkillsUSA programme.
-
 ---
 
 ## Running it locally
