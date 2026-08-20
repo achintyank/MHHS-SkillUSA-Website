@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service hours &mdash; MHHS SkillsUSA</title>
+<meta name="description" content="How service hours are logged and documented for American Spirit, Community Service and the Chapter Excellence Program, with a private hour tracker.">
+<meta name="theme-color" content="#071633">
+<meta property="og:title" content="Service hours — MHHS SkillsUSA">
+<meta property="og:description" content="How service hours are logged and documented for American Spirit, Community Service and the Chapter Excellence Program, with a private hour tracker.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/gallery/slsc-delegation.svg">
+<link rel="icon" href="assets/img/brand/wordmark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="masthead__inner">
+    <a class="brand" href="index.html">MHHS <b>SkillsUSA</b> <span>Chapter</span></a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <ul class="nav" id="site-nav"><li class="nav__item"><a class="nav__link" href="index.html">Home</a></li><li class="nav__item"><a class="nav__link" href="join.html">Join</a></li><li class="nav__item nav__item--has-menu"><button class="nav__link" type="button" aria-expanded="false">Our Chapter<i class="caret"></i></button><ul class="nav__menu"><li><a href="officers.html">Officers &amp; Advisors</a></li><li><a href="committee-reps.html">Committee Representatives</a></li><li><a href="spotlight.html">Member Spotlight</a></li></ul></li><li class="nav__item nav__item--has-menu"><button class="nav__link" type="button" aria-expanded="false" aria-current="true">Competition<i class="caret"></i></button><ul class="nav__menu"><li><a href="competition.html">Hub overview</a></li><li><a href="competitions.html">All Contests</a></li><li><a href="recognition.html">Recognition Programmes</a></li><li><a href="service-hours.html" aria-current="page">Service Hours</a></li><li><a href="checkpoints.html">Checkpoints &amp; Roadmaps</a></li></ul></li><li class="nav__item nav__item--has-menu"><button class="nav__link" type="button" aria-expanded="false">Chapter Life<i class="caret"></i></button><ul class="nav__menu"><li><a href="calendar.html">Calendar &amp; Deadlines</a></li><li><a href="chapter-events.html">Events &amp; Volunteering</a></li><li><a href="meetings.html">Meetings &amp; Recaps</a></li><li><a href="traditions.html">Chapter Traditions</a></li><li><a href="gallery.html">Photo Gallery</a></li></ul></li><li class="nav__item"><a class="nav__link" href="framework.html">Framework</a></li><li class="nav__item"><a class="nav__link" href="faq.html">FAQ</a></li></ul>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="pagehead">
+  <div class="pagehead__media"><img src="assets/img/gallery/chapter-service-day.svg" alt="" aria-hidden="true"></div>
+  <div class="pagehead__deco"></div>
+  <div class="shell">
+    <p class="eyebrow" data-reveal>Competition &#10095; Service</p>
+    <h1 data-reveal style="--delay:80ms">Service hours.</h1>
+    <p class="lede" data-reveal style="--delay:170ms">Hours are not required for membership. They matter the moment you pursue American Spirit, contribute to the chapter&rsquo;s Community Service entry, or help build its Chapter Excellence Program submission.</p>
+  </div>
+</section>
+<section class="band band--navy band--tight">
+  <div class="shell">
+    <div class="split split--top">
+      <div data-reveal>
+        <p class="eyebrow">Why log them</p>
+        <h2>Three things depend on the record.</h2>
+      </div>
+      <div class="stack" data-reveal style="--delay:120ms">
+        <p><strong>American Spirit</strong> is a notebook documenting a member&rsquo;s community
+           service, patriotism and work in career and technical education. It is also a
+           Leadership contest, so the same work can be entered for competition.</p>
+        <p><strong>Community Service</strong> is the chapter&rsquo;s single best project of the
+           year, presented by notebook and to judges. Every member&rsquo;s hours feed it.</p>
+        <p><strong>The Chapter Excellence Program</strong> is the chapter&rsquo;s annual
+           self-assessment against the Framework. A year of undocumented work is a year that
+           cannot be submitted.</p>
+        <p>The pattern behind all three: the hours are worth nothing without the record. Log
+           them as you go, because reconstructing a year in April does not work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--navy">
+  <div class="shell">
+    <div class="head" data-reveal>
+      <p class="eyebrow">A private tracker</p>
+      <h2>Keep your own running total.</h2>
+      <p class="lede">This stays in your browser and is never submitted anywhere. Export the CSV
+         and paste it into whatever the chapter uses officially. The milestones below are
+         chapter-set targets, not national thresholds &mdash; SkillsUSA does not publish hour
+         requirements for these programmes.</p>
+    </div>
+
+    <div id="tracker" class="tracker" data-reveal>
+      <form id="tracker-form" class="tracker__form">
+        <div class="field">
+          <label for="t-date">Date of activity</label>
+          <input type="date" id="t-date" required>
+        </div>
+        <div class="field">
+          <label for="t-activity">Activity description</label>
+          <input type="text" id="t-activity" placeholder="Rebuilt benches at the community garden" required>
+        </div>
+        <div class="field">
+          <label for="t-why">Explanation</label>
+          <input type="text" id="t-why" placeholder="Who it served and what changed" required>
+        </div>
+        <div class="field">
+          <label for="t-code">Category</label>
+          <select id="t-code" required></select>
+        </div>
+        <div class="field">
+          <label for="t-hours">Hours</label>
+          <input type="number" id="t-hours" min="0" step="0.5" placeholder="5" required>
+        </div>
+        <div class="field">
+          <label for="t-proof">Link to proof</label>
+          <input type="url" id="t-proof" placeholder="https://">
+        </div>
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn" type="submit">Add activity</button>
+        </div>
+      </form>
+
+      <div class="levels" id="tracker-levels"></div>
+
+      <div class="tbl-wrap">
+        <table class="log">
+          <caption class="visually-hidden">Your logged service activities</caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Activity</th>
+              <th scope="col">Explanation</th>
+              <th scope="col">Category</th>
+              <th scope="col">Hours</th>
+              <th scope="col">Proof</th>
+            </tr>
+          </thead>
+          <tbody id="tracker-rows"></tbody>
+        </table>
+      </div>
+
+      <div class="btn-row" style="margin-top:0;align-items:center">
+        <button class="btn" id="tracker-export" type="button">Export CSV</button>
+        <button class="btn btn--ghost" id="tracker-clear" type="button">Clear log</button>
+        <p class="evt__spec" style="border:0;padding:0;margin:0">
+          <span>Total logged: <strong id="tracker-total">0.0</strong> hours</span>
+        </p>
+      </div>
+
+      <div class="notice">
+        <strong>This tracker is a personal notebook, not a submission.</strong> Hours are saved in
+        this browser only &mdash; they are not sent to the officer team, and clearing your browser
+        data will erase them. Whatever the chapter adopts as its official record still has to be
+        filled in separately, and an advisor still has to approve the hours.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band band--navy-2">
+  <div class="shell">
+    <div class="head" data-reveal>
+      <p class="eyebrow">What counts</p>
+      <h2>Rules of thumb until the chapter sets its own.</h2>
+    </div>
+    <ul class="planks" data-stagger="90">
+      <li>
+        <div>
+          <h3>Somebody has to be able to confirm it</h3>
+          <p>An hour nobody can verify is an hour that cannot be documented. Record who
+             supervised the work at the time, not months later.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Record what you did, not just that you were there</h3>
+          <p>&ldquo;Volunteered, 4 hours&rdquo; is worth very little in a notebook. What the
+             project was, who it served and what changed is what a judge is reading for.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <h3>Chapter projects and personal service both count</h3>
+          <p>They document differently, though. Chapter projects feed the Community Service
+             entry and the CEP; personal service is yours and belongs in American Spirit.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="wordmark">
+  <span class="wordmark__type" aria-hidden="true">MHHS <em>SkillsUSA</em></span>
+  <div class="wordmark__sub">
+    <span>Mountain House High School</span><span>Preparing for leadership in the world of work</span><span>Champions at Work &nbsp;&#10095;&nbsp; 2026&ndash;2027</span>
+  </div>
+</section>
+</main>
+
+
+<footer class="foot">
+  <div class="shell shell--wide">
+    <div class="foot__grid">
+      <div>
+        <p class="foot__mark">MHHS <b>SkillsUSA</b></p>
+        <p>The SkillsUSA chapter at Mountain House High School, preparing members
+           for careers in trade, technical and skilled service occupations through
+           the 2026&ndash;2027 season.</p>
+        <div class="socials mt-2" data-render-socials></div>
+      </div>
+      <div><h4>The chapter</h4><ul><li><a href="index.html">About MHHS SkillsUSA</a></li><li><a href="join.html">How to join</a></li><li><a href="officers.html">Officers &amp; advisors</a></li><li><a href="committee-reps.html">Committee representatives</a></li><li><a href="spotlight.html">Member spotlight</a></li></ul></div><div><h4>Competing</h4><ul><li><a href="competition.html">Competition hub</a></li><li><a href="competitions.html">All contests</a></li><li><a href="recognition.html">Recognition programmes</a></li><li><a href="service-hours.html">Service hours</a></li><li><a href="checkpoints.html">Checkpoints &amp; roadmaps</a></li></ul></div><div><h4>Chapter life</h4><ul><li><a href="calendar.html">Calendar</a></li><li><a href="chapter-events.html">Events &amp; volunteering</a></li><li><a href="meetings.html">Meetings &amp; recaps</a></li><li><a href="traditions.html">Traditions</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="faq.html">FAQ</a></li></ul></div><div><h4>Official SkillsUSA</h4><ul><li><a href="framework.html">The Framework</a></li><li><a href="https://www.skillsusaca.org/" target="_blank" rel="noopener">SkillsUSA California</a></li><li><a href="https://www.skillsusa.org/" target="_blank" rel="noopener">SkillsUSA National</a></li></ul></div>
+    </div>
+    <div class="foot__base">
+      <span>Mountain House High School &middot; Lammersville Unified School District</span>
+      <span>Preparing for leadership in the world of work</span>
+      <span>&copy; <span id="year">2026</span> MHHS SkillsUSA</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/motion.js"></script>
+</body>
+</html>

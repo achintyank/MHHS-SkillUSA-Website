@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "/Users/achintyankaliraj/Documents/projects/MHHSSkillsUSA/MHHS-SkillUSA-Website/tools/serve.py",
+        "8123"
+      ],
+      "port": 8123
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+# MHHS SkillsUSA — Apache configuration for shared hosting (Hostinger and similar)
+# Upload this file alongside index.html in public_html.
+#
+# GitHub Pages, Netlify and Cloudflare Pages all ignore this file. It is only
+# read by Apache. Harmless to leave in the repo either way.
+#
+# BEFORE USING IT: replace the hostname in the www -> apex rule below.
+
+# ---------------------------------------------------------------- HTTPS
+# Force every request onto https:// and the canonical hostname.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # www -> apex. Swap the two lines below if you would rather standardise
+  # on the www subdomain instead.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # Allow /officers instead of /officers.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# ---------------------------------------------------------------- headers
+<IfModule mod_headers.c>
+  # Only ever reach this site over HTTPS for the next two years.
+  # Remove this line if you ever need to serve the domain over plain http.
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
+
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+
+  # The site loads its fonts from Google and Lenis from a CDN; everything
+  # else is served from this domain. No inline <script> is used except the
+  # small intro failsafe, hence 'unsafe-inline' on script-src.
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://unpkg.com; frame-src https://calendar.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+</IfModule>
+
+# ---------------------------------------------------------------- caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                 "access plus 10 minutes"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType video/mp4                 "access plus 1 year"
+  ExpiresByType application/pdf           "access plus 1 week"
+</IfModule>
+
+# ---------------------------------------------------------------- compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------- hardening
+# Don't list directory contents.
+Options -Indexes
+
+# Keep the build scripts and any stray dotfiles private.
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+RedirectMatch 404 ^/tools/
+
+ErrorDocument 404 /index.html
