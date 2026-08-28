@@ -1598,3 +1598,121 @@ table.log .num { font-family: var(--mono); white-space: nowrap; }
 .mt-2 { margin-top: 2rem; }
 .mt-3 { margin-top: 3rem; }
 .mb-0 { margin-bottom: 0; }
+
+/* ==========================================================================
+   COUNTDOWN
+   The next confirmed date on the calendar, counted down live.
+
+   Everything the chapter controls is still provisional, so this deliberately
+   locks onto the next entry that is NOT provisional — the published
+   conference dates. It therefore cannot display a date the chapter might
+   still move, and it rolls forward on its own as each conference passes.
+
+   Gold carries the numerals, because gold stands for the individual member.
+   ========================================================================== */
+.countdown {
+  position: relative;
+  background: var(--ink);
+  border-top: 1px solid var(--navy-3);
+  border-bottom: 1px solid var(--navy-3);
+  padding: clamp(3rem, 7vw, 5.5rem) 0;
+  overflow: hidden;
+}
+
+/* A field of chevrons, drifting. Pure background — never hit-tested. */
+.countdown::before {
+  content: "";
+  position: absolute; inset: -20% -10%;
+  background-image:
+    linear-gradient(115deg, transparent 46%, rgba(255,199,44,.05) 47%, rgba(255,199,44,.05) 49%, transparent 50%),
+    linear-gradient(65deg,  transparent 46%, rgba(200,16,46,.05)  47%, rgba(200,16,46,.05)  49%, transparent 50%);
+  background-size: 46px 46px, 46px 46px;
+  animation: cdDrift 28s linear infinite;
+  pointer-events: none;
+}
+@keyframes cdDrift { to { transform: translate3d(46px, 46px, 0); } }
+
+.countdown__inner { position: relative; z-index: 1; }
+
+.countdown__head { margin-bottom: clamp(1.75rem, 4vw, 2.75rem); }
+.countdown__title {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.4vw, 2.6rem);
+  line-height: 1.12; margin: .5rem 0 0; max-width: 20ch;
+  color: var(--on-navy);
+}
+.countdown__where {
+  font-family: var(--mono); font-size: .74rem; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--on-navy-soft); margin: .9rem 0 0;
+}
+
+/* -------------------------------------------------------------- the clock */
+.cd {
+  display: flex; flex-wrap: wrap; align-items: flex-start;
+  gap: clamp(.6rem, 2.2vw, 1.8rem);
+}
+.cd__unit { display: flex; flex-direction: column; gap: .55rem; }
+.cd__digits { display: flex; gap: .18rem; }
+
+.cd__digit {
+  position: relative; overflow: hidden;
+  display: inline-block; width: .72em; height: 1em;
+  font-family: var(--mono); font-weight: 500;
+  font-size: clamp(2.6rem, 9vw, 6.4rem);
+  line-height: 1; color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.cd__digit i { position: absolute; inset: 0; font-style: normal; text-align: center; }
+
+/* Old numeral leaves upward, new one arrives from below. */
+.cd__digit i.is-out { animation: cdOut .42s cubic-bezier(.4,0,.2,1) forwards; }
+.cd__digit i.is-in  { animation: cdIn  .42s cubic-bezier(.4,0,.2,1) backwards; }
+@keyframes cdOut { to   { transform: translateY(-100%); opacity: 0; } }
+@keyframes cdIn  { from { transform: translateY(100%);  opacity: 0; } }
+
+.cd__label {
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--on-navy-dim);
+}
+
+/* Chevron between units, matching the site's separator motif. */
+.cd__sep {
+  align-self: flex-start;
+  font-size: clamp(1.2rem, 3.4vw, 2.4rem);
+  line-height: 1; color: var(--navy-4);
+  margin-top: .22em;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------- the rail */
+.cd__rail {
+  margin-top: clamp(2rem, 4.5vw, 3rem);
+  height: 2px; background: var(--navy-3); position: relative;
+}
+.cd__rail b {
+  position: absolute; inset: 0 auto 0 0;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1);
+}
+.cd__rail span {
+  position: absolute; top: .9rem; right: 0;
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--on-navy-dim);
+}
+
+.cd__note {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--gold-2);
+}
+
+@media (max-width: 620px) {
+  .cd__sep { display: none; }
+  .cd { gap: 1.1rem 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown::before { animation: none; }
+  .cd__digit i.is-out, .cd__digit i.is-in { animation: none; }
+  .cd__digit i.is-out { display: none; }
+  .cd__rail b { transition: none; }
+}
