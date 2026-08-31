@@ -690,6 +690,158 @@
     }).join("");
   }
 
+  /* ------------------------------------------------------------ countdown */
+  /* Counts down to the next entry on the calendar that is not provisional.
+     Provisional dates are ones the chapter can still move, so they are
+     skipped deliberately — this only ever shows a published date, and it
+     advances to the next conference on its own once one passes. */
+  function renderCountdown() {
+    const host = $("[data-render-countdown]");
+    if (!host) return;
+
+    const now = new Date();
+    const target = D.calendar
+      .filter((e) => !e.provisional)
+      .map((e) => ({ e: e, d: new Date(e.date + "T00:00:00") }))
+      .filter((r) => r.d > now)
+      .sort((a, b) => a.d - b.d)[0];
+
+    // Take the whole band with it, or an empty bordered strip is left behind.
+    const drop = () => (host.closest(".countdown") || host).remove();
+
+    if (!target) { drop(); return; }
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const UNITS = [
+      { key: "days",    label: "Days",    pad: 3 },
+      { key: "hours",   label: "Hours",   pad: 2 },
+      { key: "minutes", label: "Minutes", pad: 2 },
+      { key: "seconds", label: "Seconds", pad: 2 }
+    ];
+
+    host.innerHTML = '' +
+      '<div class="countdown__head" data-reveal>' +
+        '<p class="eyebrow">Countdown &nbsp;&#10095;&nbsp; next confirmed date</p>' +
+        '<h2 class="countdown__title">' + esc(target.e.title) + "</h2>" +
+        '<p class="countdown__where">' +
+          MONTHS[target.d.getMonth()] + " " + target.d.getDate() + ", " + target.d.getFullYear() +
+          " &nbsp;&#10095;&nbsp; " + esc(target.e.kind) +
+        "</p>" +
+      "</div>" +
+      '<div class="cd" role="timer" aria-live="off">' +
+        UNITS.map(function (u, i) {
+          return (i ? '<span class="cd__sep">&#10095;</span>' : "") +
+            '<div class="cd__unit">' +
+              '<div class="cd__digits" data-unit="' + u.key + '"></div>' +
+              '<span class="cd__label">' + u.label + "</span>" +
+            "</div>";
+        }).join("") +
+      "</div>" +
+      '<p class="visually-hidden" data-cd-sr aria-live="polite"></p>' +
+      '<div class="cd__rail"><b></b><span></span></div>';
+
+    const fields = {};
+    UNITS.forEach(function (u) { fields[u.key] = $('[data-unit="' + u.key + '"]', host); });
+    const rail   = $(".cd__rail b", host);
+    const railTx = $(".cd__rail span", host);
+    const sr     = $("[data-cd-sr]", host);
+
+    /* The roll only animates while the band is actually on screen. Off screen
+       — including the whole time it sits below the intro — the animations
+       never get painted, so they never finish and never fire animationend to
+       clean up after themselves. Away from the viewport the digits therefore
+       update silently, which is also the correct thing to do for a section
+       nobody is looking at. */
+    function onScreen() {
+      const r = host.getBoundingClientRect();
+      const h = window.innerHeight || document.documentElement.clientHeight;
+      return r.bottom > -120 && r.top < h + 120;
+    }
+
+    /* Swap a run of digits, animating only the ones that actually changed. */
+    function paint(wrap, str, live) {
+
+      while (wrap.children.length < str.length) {
+        const cell = document.createElement("span");
+        cell.className = "cd__digit";
+        cell.appendChild(document.createElement("i"));
+        wrap.appendChild(cell);
+      }
+      while (wrap.children.length > str.length) wrap.lastChild.remove();
+
+      Array.from(wrap.children).forEach(function (cell, i) {
+        const ch = str[i];
+        const cur = cell.querySelector("i:not(.is-out)");
+        if (cur && cur.textContent === ch) return;
+
+        // First render has no previous numeral to roll away, so fill it
+        // directly rather than rolling in from a blank cell.
+        if (!live || (cur && cur.textContent === "")) {
+          cell.querySelectorAll("i.is-out").forEach((old) => old.remove());
+          if (cur) cur.textContent = ch;
+          return;
+        }
+
+        // In a backgrounded tab animationend may never fire, so sweep any
+        // leftovers here rather than relying on that listener alone.
+        cell.querySelectorAll("i.is-out").forEach((old) => old.remove());
+
+        if (cur) {
+          // Replace the class outright — keeping is-in alongside is-out would
+          // leave both rules matching at equal specificity, the animation name
+          // would never change, and so it would never restart or finish.
+          cur.className = "is-out";
+          cur.addEventListener("animationend", function () { cur.remove(); }, { once: true });
+        }
+        const next = document.createElement("i");
+        next.className = "is-in";
+        next.textContent = ch;
+        cell.appendChild(next);
+      });
+    }
+
+    // Progress runs from the season's first calendar entry to the target.
+    const first = D.calendar
+      .map((e) => new Date(e.date + "T00:00:00"))
+      .sort((a, b) => a - b)[0];
+    const span = target.d - first;
+
+    let lastDays = null;
+
+    function tick() {
+      const left = target.d - new Date();
+      if (left <= 0) { window.clearInterval(timer); drop(); return; }
+
+      const secs = Math.floor(left / 1000);
+      const v = {
+        days:    Math.floor(secs / 86400),
+        hours:   Math.floor(secs / 3600) % 24,
+        minutes: Math.floor(secs / 60) % 60,
+        seconds: secs % 60
+      };
+
+      const live = !reduced && onScreen();
+      UNITS.forEach(function (u) {
+        paint(fields[u.key], String(v[u.key]).padStart(u.pad, "0"), live);
+      });
+
+      if (v.days !== lastDays) {
+        lastDays = v.days;
+        sr.textContent = v.days + " days until " + target.e.title;
+        const done = span > 0 ? Math.min(1, Math.max(0, (new Date() - first) / span)) : 0;
+        rail.style.width = (done * 100).toFixed(2) + "%";
+        // Before the first date the bar is legitimately empty; say why rather
+        // than showing a bare "0%", which reads as broken.
+        railTx.textContent = new Date() < first
+          ? "Season opens " + MONTHS[first.getMonth()] + " " + first.getDate()
+          : Math.round(done * 100) + "% through the season";
+      }
+    }
+
+    tick();
+    const timer = window.setInterval(tick, 1000);
+  }
+
   /* ------------------------------------------------------------ boot */
   function init() {
     nav();
@@ -698,6 +850,7 @@
     renderEvents();
     renderRecognition();
     renderCalendar();
+    renderCountdown();
     renderCalendarEmbed();
     renderMeetings();
     renderSpotlights();

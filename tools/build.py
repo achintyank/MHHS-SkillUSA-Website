@@ -383,6 +383,10 @@ HOME = """
   </div>
 </section>
 
+<section class="countdown">
+  <div class="shell countdown__inner" data-render-countdown></div>
+</section>
+
 <section class="band band--paper band--paper-2" id="calendar">
   <div class="shell">
     <div class="head" data-reveal>
