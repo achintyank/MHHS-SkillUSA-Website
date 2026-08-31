@@ -22,20 +22,9 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CHEV = "&#10095;"          # ❯ — the chapter's separator mark
 YEAR = "2026&ndash;2027"
 
-NOSCRIPT = """<noscript><style>
-  body.is-gated{overflow:auto}
-  body.is-gated .after-intro{opacity:1}
-  .intro{display:none}
-  [data-reveal]{opacity:1;transform:none}
-  [data-lines] .line>span{transform:none}
-</style></noscript>
-"""
-
-INTRO_TAGS = ("<script>setTimeout(function(){if(!window.__introReady){"
-              "document.body.classList.remove('is-gated');"
-              "var m=document.querySelector('.masthead');"
-              "if(m)m.classList.remove('is-gated');}},6000);</script>\n"
-              '<script src="assets/js/intro.js"></script>\n')
+# The home page loads one extra script for the hero shader. Everything else
+# on the site runs on the shared three.
+HERO_TAG = '<script src="assets/js/hero.js"></script>\n'
 
 FONTS = ("https://fonts.googleapis.com/css2?"
          "family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700"
@@ -160,7 +149,7 @@ def theme(body):
     return body
 
 
-def page(filename, title, description, body, current=None, gated=False):
+def page(filename, title, description, body, current=None, hero=False):
     current = current or filename
     doc = """<!DOCTYPE html>
 <html lang="en">
@@ -179,11 +168,11 @@ def page(filename, title, description, body, current=None, gated=False):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{fonts}">
 <link rel="stylesheet" href="assets/css/site.css">
-{noscript}</head>
-<body{bodyclass}>
+</head>
+<body>
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="masthead{mastclass}">
+<header class="masthead">
   <div class="masthead__inner">
     <a class="brand" href="index.html">MHHS <b>SkillsUSA</b> <span>Chapter</span></a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
@@ -201,14 +190,11 @@ def page(filename, title, description, body, current=None, gated=False):
 <script src="assets/js/data.js"></script>
 <script src="assets/js/site.js"></script>
 <script src="assets/js/motion.js"></script>
-{intro}</body>
+{hero}</body>
 </html>
 """.format(title=title, desc=html.escape(description, quote=True),
            fonts=FONTS, nav=nav_html(current), body=theme(body), foot=foot_html(),
-           bodyclass=' class="is-gated"' if gated else "",
-           mastclass=" is-gated" if gated else "",
-           noscript=NOSCRIPT if gated else "",
-           intro=INTRO_TAGS if gated else "")
+           hero=HERO_TAG if hero else "")
     with open(os.path.join(OUT, filename), "w") as fh:
         fh.write(doc)
     print("wrote", filename)
@@ -257,74 +243,40 @@ MARQUEE = """
 # HOME
 # ==========================================================================
 HOME = """
-<section class="intro" id="intro">
-  <div class="intro__bg">
-    <img src="assets/img/gallery/slsc-delegation.svg" alt="" aria-hidden="true">
-  </div>
+<section class="hero" data-hero>
+  <img class="hero__still" src="assets/img/hero/delegation-2048.jpg"
+       alt="" fetchpriority="high" decoding="async">
+  <canvas class="hero__canvas" aria-hidden="true"></canvas>
+  <span class="hero__scrim"></span>
 
-  <div class="intro__stage">
-    <div class="intro__frame">
-      <div class="mont">
-        <div class="mont__layer">
-          <img src="assets/img/gallery/slsc-contest-floor.svg" alt="">
-        </div>
-        <div class="mont__layer kb-b">
-          <img src="assets/img/gallery/chapter-shop-floor.svg" alt="">
-        </div>
-        <div class="mont__layer">
-          <img src="assets/img/gallery/slsc-medal-stage.svg" alt="">
-        </div>
-        <div class="mont__layer kb-b">
-          <img src="assets/img/gallery/chapter-opening-ceremonies.svg" alt="">
-        </div>
-        <div class="mont__layer">
-          <img src="assets/img/gallery/slsc-awards-crowd.svg" alt="">
-        </div>
-        <div class="mont__layer kb-b">
-          <img src="assets/img/gallery/nlsc-atlanta.svg" alt="">
-        </div>
+  <div class="hero__inner">
+    <div class="shell">
+      <h1 class="hero__wordmark" data-reveal>
+        <span class="hero__word">MHHS</span>
+        <span class="hero__word hero__word--b">SkillsUSA</span>
+      </h1>
+      <div class="btn-row" data-reveal style="--delay:180ms">
+        <a class="btn" href="join.html">How to join</a>
+        <a class="btn btn--ghost" href="competition.html">Competition hub</a>
       </div>
-      <span class="intro__scrim"></span>
-    </div>
-
-    <div class="intro__type">
-      <h1 class="intro__word intro__word--a">MHHS</h1>
-      <h1 class="intro__word intro__word--b">SkillsUSA</h1>
     </div>
   </div>
-
-  <div class="intro__meta">
-    <span>Mountain House High School &nbsp;{chev}&nbsp; Champions at Work</span>
-    <span class="intro__hint">Scroll to enter <i></i></span>
-    <span>{year}</span>
-  </div>
-
-  <button class="intro__skip" type="button">Skip intro</button>
 </section>
-
-<div class="after-intro">
 
 <section class="band band--navy">
   <div class="shell">
-    <p class="eyebrow" data-reveal>SkillsUSA at Mountain House High School</p>
-    <h2 data-lines class="mb-0" style="font-size:clamp(1.9rem,4.6vw,3.8rem);max-width:23ch">
-      Somebody has to know how to build it, wire it, fix it and run it.
-    </h2>
-    <div class="split split--top mt-3">
-      <div></div>
+    <div class="split split--top">
+      <div data-reveal>
+        <p class="eyebrow">Since 1965</p>
+        <h2>Founded as the Vocational Industrial Clubs of America.</h2>
+      </div>
       <div class="stack" data-reveal style="--delay:120ms">
-        <p class="lede" style="max-width:46ch">Mountain House High School&rsquo;s chapter of the
-          national organization for students heading into trade, technical and skilled
-          service occupations.</p>
-        <p>SkillsUSA has been doing this since 1965, when it was founded as the Vocational
-           Industrial Clubs of America. Our chapter is one part of that: we compete in the
-           SkillsUSA Championships, we run the projects in our Program of Work, and we spend
-           a lot of the year turning a skill somebody is learning in a classroom into something
-           an employer would recognise.</p>
-        <div class="btn-row">
-          <a class="btn" href="join.html">How to join</a>
-          <a class="btn btn--ghost" href="competition.html">Competition hub</a>
-        </div>
+        <p>SkillsUSA took its present name in 1999, but the job has not changed: preparing
+           students for careers in trade, technical and skilled service occupations, and
+           giving them a way to prove what they can do.</p>
+        <p>Our chapter is one part of that. We compete in the SkillsUSA Championships, we run
+           the projects in our Program of Work, and we spend a lot of the year turning a skill
+           somebody is learning in a classroom into something an employer would recognise.</p>
       </div>
     </div>
   </div>
@@ -542,8 +494,6 @@ HOME = """
     </div>
   </div>
 </section>
-
-</div>
 """.format(marquee=MARQUEE, chev=CHEV, year=YEAR)
 
 
@@ -1806,6 +1756,6 @@ PAGES = [
 if __name__ == "__main__":
     for row in PAGES:
         fn, title, desc, body = row[0], row[1], row[2], row[3]
-        gated = row[4] if len(row) > 4 else False
-        page(fn, title, desc, body, gated=gated)
+        hero = row[4] if len(row) > 4 else False
+        page(fn, title, desc, body, hero=hero)
     print("\n%d pages written to %s" % (len(PAGES), OUT))

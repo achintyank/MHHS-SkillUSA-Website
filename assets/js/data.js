@@ -110,6 +110,58 @@ window.SKILLSUSA = (function () {
     person: (slug) => "assets/img/people/" + slug + "." + ext(slug)
   };
 
+  /* -------------------------------------------------------------- hero
+     Two photographs in one frame. The BASE is the delegation outside the
+     California State Leadership and Skills Conference; the REVEAL is the
+     same chapter inside the national conference in Atlanta. The cursor
+     opens a window from one into the other.
+
+     Paths are STEMS, not filenames. tools/hero_images.py builds
+     <stem>-1280 and <stem>-2048 in both .webp and .jpg, and the hero picks
+     the right one for the screen. Do not point these at the originals —
+     those still carry EXIF GPS data and are far too heavy.
+
+     TO CHANGE THE PHOTOGRAPHS
+     1. Drop the new originals in assets/img/hero/
+     2. Point SOURCES in tools/hero_images.py at them, tune the crop, run it
+     3. Update the stems and the alt text below
+
+     Both frames must end up the same size and aspect — the shader samples
+     them with one set of coordinates, so a mismatch slides one against the
+     other. hero_images.py enforces this. */
+  const hero = {
+    base: {
+      stem: "assets/img/hero/delegation",
+      alt: "The MHHS SkillsUSA delegation outside the California State " +
+           "Leadership and Skills Conference in Ontario."
+    },
+    reveal: {
+      stem: "assets/img/hero/delegation-reveal",
+      alt: ""                       // decorative; the base carries the alt
+    },
+
+    widths: [1280, 2048],           // must match WIDTHS in tools/hero_images.py
+
+    // --- fluid simulation -------------------------------------------------
+    // The reveal is a Navier-Stokes solve, not a shape. The cursor injects dye
+    // and velocity; wherever there is dye, the second photograph shows.
+
+    simRes: 128,          // velocity/pressure grid. 64 is cheaper, 256 finer.
+    dyeRes: 512,          // dye grid — this is the resolution you actually see
+
+    dissipation:  2.4,    // dye decay PER SECOND. Higher = closes back up sooner.
+    velocityDiss: 0.55,   // motion decay per second. Higher = the flow stops sooner.
+    curl:         30,     // vorticity confinement. 0 = ink spreading, 30 = smoke
+    pressureIters: 18,    // Jacobi iterations. Below ~12 it starts to look mushy
+
+    splatRadius: 0.24,    // size of the injection at the cursor
+    splatForce:  6000,    // how hard cursor movement pushes the fluid
+
+    // Unprompted bursts so it keeps billowing with nobody touching it.
+    // 0 leaves it still until the cursor moves.
+    idle: 1.0
+  };
+
   /* ------------------------------------------------------------ people
      Advisors and officers are TBD until the chapter is chartered and the
      first officer team is elected. Fill in name, grade, years, bio and
@@ -579,7 +631,7 @@ window.SKILLSUSA = (function () {
   ];
 
   return {
-    chapter: chapter, media: media, art: art,
+    chapter: chapter, media: media, art: art, hero: hero,
     advisors: advisors, stateOfficer: stateOfficer, regionRep: stateOfficer,
     officers: officers, assistants: assistants, committees: committees,
     framework: framework,

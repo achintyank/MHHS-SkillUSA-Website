@@ -16,6 +16,8 @@ Writes:
     assets/img/gallery/thumb/<slug>.svg  same artwork, thumbnail slot
     assets/img/people/<slug>.svg         square monogram plate
     assets/img/brand/wordmark.svg        favicon / share image
+    assets/img/hero/hero-base.svg        hero, resting state
+    assets/img/hero/hero-reveal.svg      hero, revealed under the cursor
 
 Replacing a plate with a real photograph: drop <slug>.jpg into the same
 folders and add the slug to `media.real` in data.js. Nothing here needs
@@ -302,6 +304,68 @@ def wordmark():
              y1=int(s * 0.26), ym=int(s * 0.50), y2=int(s * 0.74), sw=int(s * 0.085))
 
 
+
+# --------------------------------------------------------------- hero pair
+# Stand-ins for the two hero photographs. Both are drawn from the SAME
+# geometry with two different colour schemes, so the cursor reveal reads as
+# one scene shifting state rather than two unrelated pictures. Replace both
+# with real photographs and this function stops being used — see the `hero`
+# block in data.js.
+HW, HH = 2000, 1250
+
+
+def hero_plate(cool):
+    """One half of the hero pair. `cool` picks the resting scheme."""
+    r = Rand("mhhs-skillsusa-hero")          # same seed => identical geometry
+    g1, g2 = (NAVY, INK) if cool else (RED, "#7A0A1C")
+    a1, a2 = (STEEL_LF, GOLD) if cool else (GOLD_2, GOLD)
+
+    out = []
+    # a long chevron field marching across the frame
+    cols, rows = 5, 3
+    cw, ch = HW / float(cols), HH / float(rows)
+    sw = min(cw, ch) * 0.10
+    for j in range(rows):
+        for i in range(cols + 1):
+            x = i * cw - cw * 0.3 + (cw * 0.5 if j % 2 else 0)
+            y = j * ch
+            col = [a1, a2, g2][(i + j) % 3]
+            op = [0.55, 0.34, 0.22][(i + j) % 3]
+            out.append(
+                '<polyline points="{x0:.0f},{y0:.0f} {x1:.0f},{y1:.0f} {x0:.0f},{y2:.0f}" '
+                'fill="none" stroke="{c}" stroke-width="{sw:.0f}" stroke-linecap="round" '
+                'stroke-linejoin="round" opacity="{o:.2f}"/>'.format(
+                    x0=x, y0=y + ch * 0.20, x1=x + cw * 0.42, y1=y + ch * 0.5,
+                    y2=y + ch * 0.80, c=col, sw=sw, o=op))
+
+    # orbital rings, off to one side, echoing the emblem
+    cx, cy = HW * 0.68, HH * 0.46
+    for i in range(7):
+        out.append(
+            '<circle cx="{cx:.0f}" cy="{cy:.0f}" r="{rad:.0f}" fill="none" stroke="{c}" '
+            'stroke-width="{w:.1f}" opacity="{o:.2f}"/>'.format(
+                cx=cx, cy=cy, rad=(i + 1) * HH * 0.072, c=a2 if i % 2 else a1,
+                w=1.5 + i * 0.6, o=0.30 - i * 0.025))
+
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
+        'width="{w}" height="{h}" role="img">'
+        '<defs>'
+        '<linearGradient id="g" x1="0" y1="0" x2="0.85" y2="1">'
+        '<stop offset="0" stop-color="{g1}"/><stop offset="1" stop-color="{g2}"/>'
+        '</linearGradient>'
+        '<radialGradient id="v" cx="0.5" cy="0.42" r="0.85">'
+        '<stop offset="0.45" stop-color="#000" stop-opacity="0"/>'
+        '<stop offset="1" stop-color="#000" stop-opacity="0.55"/>'
+        '</radialGradient>'
+        '</defs>'
+        '<rect width="{w}" height="{h}" fill="url(#g)"/>'
+        '{art}'
+        '<rect width="{w}" height="{h}" fill="url(#v)"/>'
+        '</svg>'
+    ).format(w=HW, h=HH, g1=g1, g2=g2, art="".join(out))
+
+
 # ------------------------------------------------------------------ driver
 def slugs_from_data():
     """Read the gallery and roster slugs out of data.js."""
@@ -344,7 +408,12 @@ def main():
 
     write(os.path.join(ROOT, "assets", "img", "brand", "wordmark.svg"), wordmark())
 
-    print("plates: {} gallery (x2 sizes), {} people, 1 wordmark".format(
+    # hero pair — only written if a real photograph is not already in place
+    for name, cool in (("hero-base", True), ("hero-reveal", False)):
+        dest = os.path.join(ROOT, "assets", "img", "hero", name + ".svg")
+        write(dest, hero_plate(cool))
+
+    print("plates: {} gallery (x2 sizes), {} people, 2 hero, 1 wordmark".format(
         len(gallery), len(people)))
 
 
