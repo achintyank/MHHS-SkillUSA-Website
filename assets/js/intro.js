@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MHHS SkillsUSA — the intro
+   MHHS SkillsUSA: the intro
    --------------------------------------------------------------------------
    A portrait frame sits in the middle of a darkened plate. Scrolling expands
    the frame into a wide plate while the wordmark splits apart and leaves. When
@@ -7,7 +7,7 @@
 
    The frame currently holds generated plates rather than photographs, because
    the chapter has not competed yet. Nothing here is stock imagery. The montage
-   also supports <video> layers — drop clips into assets/video/ and add them as
+   also supports <video> layers; drop clips into assets/video/ and add them as
    .mont__layer children in index.html when the chapter has its own footage.
    ========================================================================== */
 

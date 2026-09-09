@@ -1,7 +1,7 @@
 /* ==========================================================================
-   MHHS SkillsUSA — motion
+   MHHS SkillsUSA: motion
    --------------------------------------------------------------------------
-   Lenis smooth scroll (loaded from CDN, entirely optional — the site works
+   Lenis smooth scroll (loaded from CDN, entirely optional; the site works
    without it), scroll reveals, the pinned collage, the 3D card surfer, and
    the masthead behaviour.
    ========================================================================== */
@@ -152,7 +152,7 @@
     function update() {
       const y = window.scrollY;
       mast.classList.toggle("is-solid", y > 40);
-      // hide going down, reveal going up — but never while a menu is open
+      // hide going down, reveal going up, but never while a menu is open
       const menuOpen = $("#site-nav") && $("#site-nav").classList.contains("is-open");
       if (!menuOpen) {
         mast.classList.toggle("is-hidden", y > 320 && y > last + 4);
@@ -230,7 +230,7 @@
 
     // The magnetic pull is a cursor gesture. On touch it would fire mid-swipe
     // and fight the scroll, so it stays off and the track is driven by scroll
-    // alone — which is how it moves on every device anyway.
+    // alone, which is how it moves on every device anyway.
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (finePointer) {
       root.addEventListener("pointermove", function (e) {
@@ -249,12 +249,13 @@
     requestAnimationFrame(draw);
   }
 
-  /* ------------------------------------------------------------ cinematic list
+  /* ------------------------------------------------------------ row reveal
      Desktop opens a row on hover. Touch devices have no hover, so the row
-     nearest the middle of the screen opens itself as you scroll — the same
-     reveal, driven by position instead of a cursor. */
-  function cineTouch() {
-    const rows = $$(".cine__row");
+     nearest the middle of the screen opens itself as you scroll, the same
+     reveal, driven by position instead of a cursor. Used by the officer
+     roster wall. */
+  function rowsOnScroll() {
+    const rows = $$(".roster__row");
     if (!rows.length) return;
     if (window.matchMedia("(hover: hover) and (min-width: 861px)").matches) return;
 
@@ -325,7 +326,7 @@
   function init() {
     initLenis();
     fitWordmark();
-    cineTouch();
+    rowsOnScroll();
     marquee();
     stagger();
     splitLines();

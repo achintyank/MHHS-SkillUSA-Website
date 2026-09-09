@@ -2,7 +2,7 @@
 """Generate the placeholder plates for MHHS SkillsUSA.
 
 The chapter has no photographs yet, so every image slot on the site is filled
-by a *plate* — a generated graphic in the chapter palette. They are meant to
+by a *plate*, a generated graphic in the chapter palette. They are meant to
 look designed rather than missing: geometry drawn from the SkillsUSA emblem,
 in SkillsUSA red, navy and gold.
 
@@ -56,7 +56,7 @@ SCHEMES = [
 ]
 
 W, H = 1500, 1000          # gallery plate
-PW = 760                   # people plate
+PW, PH = 780, 1040         # people plate, 3:4 to match tools/photos.py
 
 
 def seed(slug):
@@ -84,7 +84,7 @@ class Rand:
 
 # ------------------------------------------------------------ compositions
 def chevrons(r, g1, g2, a1, a2):
-    """Ranks of chevrons marching across the plate — the emblem's stroke."""
+    """Ranks of chevrons marching across the plate, the emblem's stroke."""
     out = []
     cols = int(r.between(3, 6))
     rows = int(r.between(2, 4))
@@ -106,7 +106,7 @@ def chevrons(r, g1, g2, a1, a2):
 
 
 def orbits(r, g1, g2, a1, a2):
-    """Concentric arcs — the orbital circles that ring the emblem's torch."""
+    """Concentric arcs: the orbital circles that ring the emblem's torch."""
     out = []
     cx, cy = W * r.between(0.34, 0.62), H * r.between(0.42, 0.62)
     n = int(r.between(5, 9))
@@ -142,7 +142,7 @@ def bands(r, g1, g2, a1, a2):
 
 
 def blueprint(r, g1, g2, a1, a2):
-    """A drafting grid with cells called out — technical drawing."""
+    """A drafting grid with cells called out, like a technical drawing."""
     out = []
     cols, rows = int(r.between(6, 10)), int(r.between(4, 7))
     cw, ch = W / float(cols), H / float(rows)
@@ -167,7 +167,7 @@ def blueprint(r, g1, g2, a1, a2):
 
 
 def rays(r, g1, g2, a1, a2):
-    """A torch's light — rays fanning from a point off the lower edge."""
+    """A torch's light: rays fanning from a point off the lower edge."""
     out = []
     cx, cy = W * r.between(0.20, 0.80), H * r.between(1.02, 1.25)
     n = int(r.between(11, 19))
@@ -185,7 +185,7 @@ def rays(r, g1, g2, a1, a2):
 
 
 def stack(r, g1, g2, a1, a2):
-    """Offset plates — material stacked on a bench."""
+    """Offset plates: material stacked on a bench."""
     out = []
     n = int(r.between(4, 7))
     for i in range(n):
@@ -265,26 +265,26 @@ def person_plate(slug):
     g1, g2, a1, _a2 = r.pick(SCHEMES)
     mono = initials(slug)
     return (
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {s} {s}" '
-        'width="{s}" height="{s}" role="img">'
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
+        'width="{w}" height="{h}" role="img">'
         '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
         '<stop offset="0" stop-color="{g1}"/><stop offset="1" stop-color="{g2}"/>'
         '</linearGradient></defs>'
-        '<rect width="{s}" height="{s}" fill="url(#g)"/>'
-        '<path d="M0 {b:.0f} L{s} {b:.0f} L{s} {s} L0 {s} Z" fill="{a}" opacity="0.10"/>'
+        '<rect width="{w}" height="{h}" fill="url(#g)"/>'
+        '<path d="M0 {b:.0f} L{w} {b:.0f} L{w} {h} L0 {h} Z" fill="{a}" opacity="0.10"/>'
         '<path d="M{c1:.0f} {t:.0f} L{c2:.0f} {m:.0f} L{c1:.0f} {bo:.0f}" fill="none" '
         'stroke="{a}" stroke-width="{sw:.0f}" stroke-linecap="round" '
         'stroke-linejoin="round" opacity="0.30"/>'
-        '<text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" '
+        '''<text x="50%" y="42%" text-anchor="middle" dominant-baseline="central" '''
         'font-family="Newsreader, Iowan Old Style, Georgia, serif" '
         'font-size="{fs:.0f}" fill="{a}" opacity="0.95" '
         'letter-spacing="{ls:.0f}">{mono}</text>'
-        '<rect x="0" y="{r:.0f}" width="{s}" height="{rh:.0f}" fill="{a}" opacity="0.85"/>'
+        '<rect x="0" y="{r:.0f}" width="{w}" height="{rh:.0f}" fill="{a}" opacity="0.85"/>'
         '</svg>'
-    ).format(s=PW, g1=g1, g2=g2, a=a1, b=PW * 0.62,
-             c1=PW * 0.70, c2=PW * 0.84, t=PW * 0.14, m=PW * 0.30, bo=PW * 0.46,
+    ).format(w=PW, h=PH, g1=g1, g2=g2, a=a1, b=PH * 0.62,
+             c1=PW * 0.70, c2=PW * 0.84, t=PH * 0.10, m=PH * 0.22, bo=PH * 0.34,
              sw=PW * 0.035, fs=PW * 0.30, ls=PW * 0.01, mono=mono,
-             r=PW * 0.955, rh=PW * 0.045)
+             r=PH * 0.955, rh=PH * 0.045)
 
 
 def wordmark():
@@ -309,7 +309,7 @@ def wordmark():
 # Stand-ins for the two hero photographs. Both are drawn from the SAME
 # geometry with two different colour schemes, so the cursor reveal reads as
 # one scene shifting state rather than two unrelated pictures. Replace both
-# with real photographs and this function stops being used — see the `hero`
+# with real photographs and this function stops being used; see the `hero`
 # block in data.js.
 HW, HH = 2000, 1250
 
@@ -408,7 +408,7 @@ def main():
 
     write(os.path.join(ROOT, "assets", "img", "brand", "wordmark.svg"), wordmark())
 
-    # hero pair — only written if a real photograph is not already in place
+    # hero pair: only written if a real photograph is not already in place
     for name, cool in (("hero-base", True), ("hero-reveal", False)):
         dest = os.path.join(ROOT, "assets", "img", "hero", name + ".svg")
         write(dest, hero_plate(cool))

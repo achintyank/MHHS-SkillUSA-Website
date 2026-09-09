@@ -16,7 +16,7 @@ Writes  assets/img/hero/<name>-2048.webp    desktop
 EXIF is dropped on every output. Phone photos carry GPS coordinates, the
 device make and model, and a capture timestamp; none of that belongs on a
 public site. The originals in this folder keep theirs, so do not deploy the
-originals — only the derived files are referenced by data.js.
+originals; only the derived files are referenced by data.js.
 
 Both source images must already be the same orientation and, ideally, the
 same pixel dimensions. This script will warn if they are not: the reveal
@@ -86,7 +86,7 @@ def build(src_name, stem, cfg):
         # Always resize to exactly w x w/ASPECT. Both sources MUST come out at
         # identical dimensions: the shader samples them with the same UVs, so
         # a mismatch shifts one image against the other. The per-source zoom
-        # differs, so this may upscale one of them slightly — 10-15% is
+        # differs, so this may upscale one of them slightly, and 10-15% is
         # invisible and is worth it for a shared coordinate space.
         tw = w
         th = int(round(w / ASPECT))
@@ -114,7 +114,7 @@ def main():
         for name, nbytes in made:
             print("    %-32s %6.0f KB" % (name, nbytes / 1024.0))
 
-    # Outputs are always ASPECT, so differing CROP sizes are fine — they are
+    # Outputs are always ASPECT, so differing CROP sizes are fine; they are
     # resized to a common target. What is worth flagging is heavy upscaling,
     # which softens the image.
     for n, s in sizes:

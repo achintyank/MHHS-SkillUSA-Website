@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MHHS SkillsUSA — the hero
+   MHHS SkillsUSA: the hero
    --------------------------------------------------------------------------
    Two photographs in one frame. The base is the delegation outside the state
    conference; the reveal is the same chapter inside the national conference.
@@ -7,7 +7,7 @@
 
    The window is not a shape. It is a FLUID SIMULATION.
 
-   Earlier versions drew a mask — first a soft radial gradient, then a Voronoi
+   Earlier versions drew a mask: first a soft radial gradient, then a Voronoi
    threshold. Both were shapes being moved around, and both read as a shape
    being moved around. This runs an actual Navier-Stokes solver on the GPU:
    the cursor injects dye and velocity into a field, the field advects itself,
@@ -45,12 +45,12 @@
   /* ------------------------------------------------------------- tuning */
   const SIM = {
     simRes:        cfg.simRes        || 128,   // velocity/pressure grid
-    dyeRes:        cfg.dyeRes        || 512,   // dye grid — what you actually see
+    dyeRes:        cfg.dyeRes        || 512,   // dye grid: what you actually see
     densityDiss:   cfg.dissipation   == null ? 0.92 : cfg.dissipation,
     velocityDiss:  cfg.velocityDiss  == null ? 0.24 : cfg.velocityDiss,
     pressureDiss:  0.8,
     pressureIters: cfg.pressureIters || 18,
-    curl:          cfg.curl          || 30,    // vorticity — the swirl
+    curl:          cfg.curl          || 30,    // vorticity: the swirl
     splatRadius:   cfg.splatRadius   || 0.22,
     splatForce:    cfg.splatForce    || 6000,
     idle:          reduced ? 0 : (cfg.idle == null ? 1 : cfg.idle)
@@ -189,7 +189,7 @@
     "  vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;",
     // Decay is a per-SECOND rate, not a per-frame multiplier. Multiplying by a
     // constant each frame ties the physics to the refresh rate and, at 60fps,
-    // kills the velocity field in about a tenth of a second — the dye never
+    // kills the velocity field in about a tenth of a second; the dye never
     // gets carried anywhere and it reads as a puff instead of a trail.
     "  float decay = 1.0 + dissipation * dt;",
     "  gl_FragColor = texture2D(uSource, coord) / decay;",
@@ -228,7 +228,7 @@
     "}"
   ].join("\n");
 
-  // Vorticity confinement — pushes energy back into the curl so eddies survive
+  // Vorticity confinement: pushes energy back into the curl so eddies survive
   // instead of being smeared away by advection. Without this it looks like ink
   // spreading; with it, it looks like smoke.
   F.vorticity = [
@@ -289,7 +289,8 @@
     "varying vec2 vUv;",
     "uniform sampler2D uBase; uniform sampler2D uReveal; uniform sampler2D uDye;",
     "uniform float uCanvasAspect; uniform float uImgAspect;",
-    "uniform vec2 uShift; uniform float uActive;",
+    "uniform vec2 uShift; uniform float uActive; uniform float uFlood;",
+    "uniform vec2 uDyeRes;",
 
     // cover-fit with a 5% inset so the parallax shift stays inside the texture
     "vec2 cover(vec2 uv){",
@@ -302,18 +303,45 @@
     "void main(){",
     "  vec2 uv = cover(vUv);",
     // Each layer shifts as a whole, at a different rate. The two sliding
-    // against each other is the depth cue. Never per-pixel — displacing one
+    // against each other is the depth cue. Never per-pixel; displacing one
     // photo by the other's luminance tears it along meaningless contours.
     "  vec3 baseCol   = texture2D(uBase,   clamp(uv + uShift * 0.012, 0.0, 1.0)).rgb;",
     "  vec3 revealCol = texture2D(uReveal, clamp(uv + uShift * 0.034, 0.0, 1.0)).rgb;",
+    /* The two photographs were shot under different light: the base is outdoor
+       daylight, the reveal is an indoor hall under tungsten, which measures far
+       warmer (R-B of +35 against the base's +11). Composited untouched, the
+       blob reads as a yellow stain rather than as a window onto the same world.
+       This is a white balance on the reveal layer alone, bringing its cast into
+       line with the layer it sits inside: these three numbers land the
+       reveal on the base's exact +11 rather than merely near it. */
+    "  revealCol *= vec3(0.91, 0.99, 1.16);",
 
-    "  float dye = texture2D(uDye, vUv).r;",
-    "  float m = smoothstep(0.02, 0.24, dye) * uActive;",
+    /* Metaball thresholding. A diffuse field read through a NARROW smoothstep
+       resolves into a shape with a definite edge, and two nearby sources merge
+       into one smooth outline instead of overlapping as clouds. Reading it
+       through a wide ramp instead is what made this look like smoke. The blur
+       first is what keeps that hard threshold from showing the dye grid. */
+    "  vec2 px = vec2(2.0) / uDyeRes;",
+    "  float dye = texture2D(uDye, vUv).r * 0.25",
+    "            + (texture2D(uDye, vUv + vec2( px.x, 0.0)).r",
+    "            +  texture2D(uDye, vUv + vec2(-px.x, 0.0)).r",
+    "            +  texture2D(uDye, vUv + vec2(0.0,  px.y)).r",
+    "            +  texture2D(uDye, vUv + vec2(0.0, -px.y)).r) * 0.125",
+    "            + (texture2D(uDye, vUv + px * vec2( 1.0,  1.0)).r",
+    "            +  texture2D(uDye, vUv + px * vec2(-1.0,  1.0)).r",
+    "            +  texture2D(uDye, vUv + px * vec2( 1.0, -1.0)).r",
+    "            +  texture2D(uDye, vUv + px * vec2(-1.0, -1.0)).r) * 0.0625;",
+    "  float m = smoothstep(0.16, 0.23, dye);",
+
+    // Scroll progress floods the reveal upward from the bottom. The dye field
+    // perturbs the leading edge, so the wipe reacts to whatever the fluid is
+    // doing rather than being a straight line crossing the frame.
+    "  float edgeY = -0.20 + uFlood * 1.40;",
+    "  float wipe = smoothstep(edgeY + 0.16, edgeY - 0.06, vUv.y - dye * 0.30);",
+    "  m = max(m, wipe);",
+    "  m *= uActive;",
 
     "  vec3 col = mix(baseCol, revealCol, m);",
-    // gold along the thin leading edge of the dye, where it is wisping out
-    "  float edge = smoothstep(0.015, 0.09, dye) * (1.0 - smoothstep(0.09, 0.24, dye));",
-    "  col += vec3(1.00, 0.78, 0.17) * edge * 0.30 * uActive;",
     "  gl_FragColor = vec4(col, 1.0);",
     "}"
   ].join("\n");
@@ -519,6 +547,17 @@
     return t;
   }
 
+  // How far through the pinned track we are, 0 to 1. The track is taller than
+  // the viewport; the surplus is the scroll budget the transition runs on.
+  const track = document.querySelector("[data-hero-track]");
+  let flood = 0;
+  function scrollProgress() {
+    if (!track) return 0;
+    const budget = track.offsetHeight - window.innerHeight;
+    if (budget <= 0) return 0;                 // reduced-motion: track is auto
+    return Math.min(Math.max(-track.getBoundingClientRect().top / budget, 0), 1);
+  }
+
   function render() {
     P.composite.bind();
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, baseTex);
@@ -526,11 +565,13 @@
     gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, revealTex);
     gl.uniform1i(P.composite.uniforms.uReveal, 1);
     gl.uniform1i(P.composite.uniforms.uDye, dye.read.attach(2));
+    gl.uniform2f(P.composite.uniforms.uDyeRes, dye.width, dye.height);
     gl.uniform1f(P.composite.uniforms.uCanvasAspect,
                  gl.drawingBufferWidth / Math.max(gl.drawingBufferHeight, 1));
     gl.uniform1f(P.composite.uniforms.uImgAspect, imgAspect);
     gl.uniform2f(P.composite.uniforms.uShift, sx - 0.5, sy - 0.5);
     gl.uniform1f(P.composite.uniforms.uActive, active);
+    gl.uniform1f(P.composite.uniforms.uFlood, flood);
     blit(null);
   }
 
@@ -570,28 +611,47 @@
 
     resize();
 
+    // Read scroll progress FIRST, because the splat gate below depends on it and
+    // updating it after the fact leaves the gate a frame behind the wipe.
+    const p = reduced ? 0 : scrollProgress();
+    if (Math.abs(p - flood) > 0.0005) {
+      flood = p;
+      host.style.setProperty("--hero-p", flood.toFixed(4));
+    }
+
+    /* Once the scroll wipe has taken the frame, the reveal photograph is what
+       the section is showing and the fluid has nothing left to uncover. Stop
+       feeding it, otherwise dye keeps billowing behind a picture that is
+       already fully visible, and its gold edge wisps across the photograph.
+
+       Ramped rather than switched, so the trail thins out as you scroll
+       instead of vanishing mid-stroke. Existing dye is left to dissipate on
+       its own through the normal advection step. */
+    const gate = 1 - Math.min(Math.max((flood - 0.45) / 0.35, 0), 1);
+
     if (pending) {
-      splat(pending.x, pending.y, pending.dx, pending.dy, 1.0);
+      if (gate > 0.01) splat(pending.x, pending.y, pending.dx, pending.dy, gate);
       sx += (pending.x - sx) * 0.18;
       sy += (pending.y - sy) * 0.18;
       pending = null;
     }
 
     // Unprompted bursts, so it keeps billowing with nobody touching it.
-    if (SIM.idle > 0) {
+    if (SIM.idle > 0 && gate > 0.01) {
       idleT += dt;
       if (idleT > nextBurst) {
         idleT = 0;
         nextBurst = 0.28 + Math.random() * 0.85;
         const a = Math.random() * Math.PI * 2;
-        const mag = (0.6 + Math.random() * 1.3) * SIM.splatForce * 0.16 * SIM.idle;
+        const mag = (0.6 + Math.random() * 1.3) * SIM.splatForce * 0.16 * SIM.idle * gate;
         splat(0.30 + Math.random() * 0.45, 0.30 + Math.random() * 0.42,
-              Math.cos(a) * mag, Math.sin(a) * mag, 0.85 * SIM.idle);
+              Math.cos(a) * mag, Math.sin(a) * mag, 0.85 * SIM.idle * gate);
       }
     }
 
     if (!reduced) step(dt);
     active += (1.0 - active) * 0.08;
+
     render();
 
     raf = requestAnimationFrame(frame);

@@ -20,6 +20,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=ROOT, **kw)
 
+    def end_headers(self):
+        # A preview server that lets the browser cache is worse than useless:
+        # you edit site.css or data.js, reload, and are shown the old file.
+        # Several "it is broken" moments were only ever a stale cache.
+        self.send_header("Cache-Control", "no-store, must-revalidate")
+        super().end_headers()
+
     def log_message(self, fmt, *args):
         sys.stderr.write("%s %s\n" % (self.address_string(), fmt % args))
 

@@ -1,9 +1,9 @@
 /* ==========================================================================
-   MHHS SkillsUSA — site content
+   MHHS SkillsUSA site content
    --------------------------------------------------------------------------
    This is the one file to edit when the chapter changes. Officers, committee
    representatives, competitions, calendar dates, FAQs and photos all live
-   here. Nothing here is styling — edit the text, save, refresh.
+   here. Nothing here is styling. Edit the text, save, refresh.
 
    Anything marked TBD is waiting on the officer team or the advisor. Search
    "TBD" to find every open item at once.
@@ -18,12 +18,14 @@ window.SKILLSUSA = (function () {
   "use strict";
 
   /* ------------------------------------------------------------ chapter */
+  const CHAPTER_EMAIL = "mhhsskillsusa@lammersvilleusd.net";
+
   const chapter = {
     year: "2026–2027",
     school: "Mountain House High School",
     district: "Lammersville Unified School District",
     org: "SkillsUSA",
-    orgLong: "SkillsUSA — Champions at Work",
+    orgLong: "SkillsUSA: Champions at Work",
     motto: "Preparing for leadership in the world of work.",
 
     // The SkillsUSA Pledge, said at the opening of chapter meetings.
@@ -39,33 +41,63 @@ window.SKILLSUSA = (function () {
     colors: [
       ["Red and white", "The individual states and chapters."],
       ["Blue", "The common union of the states and of the chapters."],
-      ["Gold", "The individual — the most important element of the organization."]
+      ["Gold", "The individual, the most important element of the organization."]
     ],
 
     socials: [
-      { icon: "instagram", handle: "@mhhsskillsusa", url: "" },   // TBD
-      { icon: "canvas",    handle: "Chapter Canvas page", url: "" }, // TBD
-      { icon: "mail",      handle: "Chapter email", url: "" }        // TBD
+      { icon: "instagram", handle: "@mhhs.skillsusa", url: "https://www.instagram.com/mhhs.skillsusa/" },
+      { icon: "mail",      handle: CHAPTER_EMAIL, url: "mailto:" + CHAPTER_EMAIL }
     ],
 
     // Paste the Google Calendar embed URL here and the calendar page fills in.
     calendarEmbed: "",
 
-    // Every form the chapter uses. Paste the live URL and the button turns on.
+    email: CHAPTER_EMAIL,
+
+    /* Once the season's last date has passed the countdown has nothing left to
+       point at. Rather than the band disappearing over the summer it counts to
+       the start of the next season instead.
+
+       This is a PLACEHOLDER month and day that repeats every year, standing in
+       until an officer sets the real one. Format MM-DD. Change this line and
+       the countdown follows; there is nothing else to edit.
+
+       1 August rather than a real first day of school, because that date moves
+       every year. It is early enough to always land before the school year
+       opens, so the countdown never runs past its own target. */
+    nextSeason: "08-01",
+
+    /* Every form the chapter uses. Paste the live URL and the button turns on.
+
+       Until then the button does NOT go dead: it becomes a mailto to the
+       chapter address, with `ask` as its wording and the form's label as the
+       subject line. A member should never hit a dead end because a Google
+       Form has not been made yet. */
     forms: {
-      interest:      { label: "SkillsUSA Interest Form",            url: "" },
-      ctso:          { label: "School-Wide CTSO Form",              url: "" },
-      membership:    { label: "MHHS SkillsUSA Membership Form",     url: "" },
-      eventSelection:{ label: "Competition Selection Form",         url: "" },
-      questions:     { label: "Questions & Support Form",           url: "" },
-      classRep:      { label: "Committee Representative Application", url: "" },
-      spotlight:     { label: "Member Spotlight Nomination",        url: "" }
+      interest:      { label: "SkillsUSA Interest Form",            url: "",
+                       ask: "Email us to get involved" },
+      ctso:          { label: "School-Wide CTSO Form",
+                     // Canonical /viewform link. The URL supplied ended in
+                     // /closedform, which is what Google serves when a form is
+                     // NOT accepting responses. /viewform works in both states
+                     // and starts working again the moment it reopens.
+                     url: "https://docs.google.com/forms/d/e/1FAIpQLSe2PuJz-V0pFNA_t2gUXDW0b09zJeU9uh7dBx_jXC5WYIY8lQ/viewform" },
+      membership:    { label: "MHHS SkillsUSA Membership Form",
+                     url: "https://docs.google.com/forms/d/e/1FAIpQLScchINJYRnMSYFffP8UjJJ0suexolmsWF_QMA9l43zVmwgxVA/viewform" },
+      eventSelection:{ label: "Competition Selection Form",         url: "",
+                       ask: "Email your contest choice" },
+      questions:     { label: "Questions & Support Form",           url: "",
+                       ask: "Email the officer team" },
+      classRep:      { label: "Committee Representative Application", url: "",
+                       ask: "Email to apply" },
+      spotlight:     { label: "Member Spotlight Nomination",        url: "",
+                       ask: "Email a nomination" }
     }
   };
 
   /* -------------------------------------------------------------- media
      No chapter photographs exist yet, so every image slot is filled by a
-     generated plate — a designed graphic in the chapter palette, produced by
+     generated plate, a designed graphic in the chapter palette, produced by
      tools/plates.py. The site looks finished today and takes real photos the
      moment they arrive.
 
@@ -76,19 +108,12 @@ window.SKILLSUSA = (function () {
      When every slot has a photograph, set ext to "jpg" and empty `real`. */
   const media = {
     ext: "svg",   // "svg" = generated plates · "jpg" = real photographs
-    real: [],     // slugs that already have a real .jpg, whatever `ext` says
-
-    // Which plate or photo fronts each competition category on the home page.
-    cine: {
-      "leadership":            "chapter-opening-ceremonies",
-      "occupationally-related":"chapter-contest-prep",
-      "skilled-technical":     "chapter-shop-floor"
-    },
+    real: ["chapter-officer-team", "chapter-shop-floor", "competition-manager", "director-of-events-1", "director-of-events-2", "director-of-events-3", "nlsc-atlanta", "president", "secretary", "slsc-delegation", "social-media", "treasurer", "vice-president-1", "vice-president-2"],     // slugs that already have a real .jpg, whatever `ext` says
 
     // The three-column pinned collage on the home page.
     collage: {
       left:  ["slsc-delegation", "chapter-service-day", "slsc-medal-stage",
-              "chapter-framework-workshop", "flc-workshop"],
+              "chapter-framework-workshop", "rlsc-contest-floor"],
       pin:   ["slsc-awards-crowd", "chapter-officer-team", "slsc-contest-floor"],
       right: ["chapter-first-meeting", "slsc-job-interview", "nlsc-atlanta",
               "slsc-chapter-sign", "chapter-fundraiser"]
@@ -97,9 +122,9 @@ window.SKILLSUSA = (function () {
     // The 3D card track further down the home page.
     surfer: [
       "slsc-delegation", "chapter-officer-team", "slsc-medal-stage", "chapter-shop-floor",
-      "slsc-awards-crowd", "chapter-contest-prep", "slsc-contest-floor", "flc-delegation",
+      "slsc-awards-crowd", "chapter-contest-prep", "slsc-contest-floor", "rlsc-delegation",
       "chapter-service-day", "slsc-job-interview", "slsc-chapter-sign", "chapter-opening-ceremonies",
-      "flc-workshop", "nlsc-atlanta", "chapter-framework-workshop", "chapter-fundraiser"
+      "rlsc-contest-floor", "nlsc-atlanta", "chapter-framework-workshop", "chapter-fundraiser"
     ]
   };
 
@@ -118,7 +143,7 @@ window.SKILLSUSA = (function () {
 
      Paths are STEMS, not filenames. tools/hero_images.py builds
      <stem>-1280 and <stem>-2048 in both .webp and .jpg, and the hero picks
-     the right one for the screen. Do not point these at the originals —
+     the right one for the screen. Do not point these at the originals;
      those still carry EXIF GPS data and are far too heavy.
 
      TO CHANGE THE PHOTOGRAPHS
@@ -126,7 +151,7 @@ window.SKILLSUSA = (function () {
      2. Point SOURCES in tools/hero_images.py at them, tune the crop, run it
      3. Update the stems and the alt text below
 
-     Both frames must end up the same size and aspect — the shader samples
+     Both frames must end up the same size and aspect, because the shader samples
      them with one set of coordinates, so a mismatch slides one against the
      other. hero_images.py enforces this. */
   const hero = {
@@ -147,19 +172,28 @@ window.SKILLSUSA = (function () {
     // and velocity; wherever there is dye, the second photograph shows.
 
     simRes: 128,          // velocity/pressure grid. 64 is cheaper, 256 finer.
-    dyeRes: 512,          // dye grid — this is the resolution you actually see
+    dyeRes: 320,          // dye grid. Coarser than the screen ON PURPOSE: a
+                          // smaller field blurred is smoother than a fine one
 
-    dissipation:  2.4,    // dye decay PER SECOND. Higher = closes back up sooner.
-    velocityDiss: 0.55,   // motion decay per second. Higher = the flow stops sooner.
-    curl:         30,     // vorticity confinement. 0 = ink spreading, 30 = smoke
-    pressureIters: 18,    // Jacobi iterations. Below ~12 it starts to look mushy
+    /* Tuned for a liquid BLOB that follows the cursor, not smoke.
 
-    splatRadius: 0.24,    // size of the injection at the cursor
-    splatForce:  6000,    // how hard cursor movement pushes the fluid
+       The four numbers that decide which of those you get are curl,
+       velocityDiss, splatForce and idle. The previous settings (curl 30,
+       velocityDiss 0.55, force 6000, idle 1.0) let the flow swirl, run a long
+       way and billow on its own, which reads as fire. These hold it together
+       around the pointer instead. The hard edge itself is a threshold in the
+       composite shader, not a setting here. */
+    dissipation:  1.9,    // dye decay PER SECOND. Higher = the blob closes back up sooner
+    velocityDiss: 4.6,    // motion decay per second. High: the flow stops almost at once
+    curl:         0,      // vorticity confinement. 0 = no swirl, 30 = smoke
+    pressureIters: 24,    // Jacobi iterations. More = smoother, more incompressible
+
+    splatRadius: 0.34,    // size of the injection at the cursor
+    splatForce:  2200,    // how hard cursor movement pushes the fluid
 
     // Unprompted bursts so it keeps billowing with nobody touching it.
-    // 0 leaves it still until the cursor moves.
-    idle: 1.0
+    // 0 leaves it still until the cursor moves, which is what a blob wants.
+    idle: 0
   };
 
   /* ------------------------------------------------------------ people
@@ -183,112 +217,116 @@ window.SKILLSUSA = (function () {
     }
   ];
 
-  /* A member holding a state office, if the chapter has one. Delete this
-     block and the `stateOfficer` export if not. */
-  const stateOfficer = {
-    slug: "state-officer",
-    name: "TBD",
-    role: "State Officer, SkillsUSA California",
-    grade: "TBD",
-    years: "TBD",
-    bio: "SkillsUSA California elects a state officer team each spring at the State Leadership and Skills Conference. A chapter member holding state office represents every chapter in the region, not only this one.",
-    school: "",
-    personal: ""
-  };
-
-  /* The seven standard SkillsUSA officer roles. Seven is also the number of
-     members on an Opening and Closing Ceremonies team, which is not an
-     accident — each officer has a speaking part built around one point of
-     the emblem. */
+  /* The chapter's officer roles. Ten seats: president, two vice presidents,
+     secretary, treasurer, three Directors of Events, a Competition Manager
+     and Social Media. */
   const officers = [
     {
       slug: "president",
-      name: "TBD",
+      name: "Sanvi Tej",
       role: "President",
       grade: "TBD",
       years: "TBD",
-      bio: "Presides over chapter meetings, represents the chapter to the school and district, and is accountable for the Program of Work getting done rather than merely written.",
+      bio: "Presides over chapter meetings and represents the chapter to the school and district.",
       school: "",
       personal: ""
     },
     {
-      slug: "vice-president",
-      name: "TBD",
+      slug: "vice-president-1",
+      name: "Anjali Palsaniya",
       role: "Vice President",
       grade: "TBD",
       years: "TBD",
-      bio: "Runs the committee structure and stands in for the president. In most chapters this is the officer who actually knows the status of every project.",
+      bio: "Runs the committee structure and stands in for the president.",
+      school: "",
+      personal: ""
+    },
+    {
+      slug: "vice-president-2",
+      name: "Arman Khan",
+      role: "Vice President",
+      grade: "TBD",
+      years: "TBD",
+      bio: "Shares the vice presidency and the committee load, and stands in for the president. Two vice presidents means a committee always has someone to go to.",
       school: "",
       personal: ""
     },
     {
       slug: "secretary",
-      name: "TBD",
+      name: "Pranav Nittala",
       role: "Secretary",
       grade: "TBD",
       years: "TBD",
-      bio: "Keeps the minutes, maintains the membership roster, and handles chapter correspondence — including the paperwork that competition entries depend on.",
+      bio: "Keeps the minutes, maintains the membership roster, and handles chapter correspondence, including the paperwork that competition entries depend on.",
       school: "",
       personal: ""
     },
     {
       slug: "treasurer",
-      name: "TBD",
+      name: "Luke Subin",
       role: "Treasurer",
       grade: "TBD",
       years: "TBD",
-      bio: "Tracks dues, fundraising income and conference costs, and reports the balance at every meeting. Conference travel is the largest line item by a wide margin.",
+      bio: "Tracks dues, fundraising income and conference costs, and reports the balance at every meeting.",
       school: "",
       personal: ""
     },
     {
-      slug: "reporter",
-      name: "TBD",
-      role: "Reporter",
+      slug: "director-of-events-1",
+      name: "Krish Bhaliya",
+      role: "Director of Events",
       grade: "TBD",
       years: "TBD",
-      bio: "Publicises the chapter — this website, the chapter's social accounts, announcements, and the school newspaper. Also the officer who makes sure someone is photographing the year.",
+      bio: "Plans and runs chapter events: meetings, fundraisers, service days and the banquet. Three directors share the load across the year.",
       school: "",
       personal: ""
     },
     {
-      slug: "historian",
-      name: "TBD",
-      role: "Historian",
+      slug: "director-of-events-2",
+      name: "Naman Narang",
+      role: "Director of Events",
       grade: "TBD",
       years: "TBD",
-      bio: "Builds and keeps the chapter archive: photographs, results, artefacts and the record of what the chapter did. Much of the Chapter Excellence Program submission comes out of this work.",
+      bio: "Plans and runs chapter events alongside the other directors, and owns the logistics nobody sees until they go wrong.",
       school: "",
       personal: ""
     },
     {
-      slug: "parliamentarian",
-      name: "TBD",
-      role: "Parliamentarian",
+      slug: "director-of-events-3",
+      name: "Nandan Iyer",
+      role: "Director of Events",
       grade: "TBD",
       years: "TBD",
-      bio: "Advises the chair on parliamentary procedure and keeps meetings running to order. Usually the chapter's strongest Chapter Business Procedure competitor.",
+      bio: "Plans and runs chapter events alongside the other directors, and keeps the calendar honest about what is actually booked.",
+      school: "",
+      personal: ""
+    },
+    {
+      slug: "competition-manager",
+      name: "Sadana Gondi",
+      role: "Competition Manager",
+      grade: "TBD",
+      years: "TBD",
+      bio: "Owns the competition season end to end: contest selection, entry paperwork, deadlines, and making sure every competitor knows what their guidelines actually require.",
+      school: "",
+      personal: ""
+    },
+    {
+      slug: "social-media",
+      name: "Plaksha Sisodiya",
+      role: "Social Media",
+      grade: "TBD",
+      years: "TBD",
+      bio: "Runs the social media account, updates the website, manages all media and promotional content, and more.",
       school: "",
       personal: ""
     }
   ];
 
-  /* Assistant or junior officers, if the chapter runs them. Delete the rows
-     that do not apply. */
-  const assistants = [
-    { slug: "assistant-1", name: "TBD", role: "Assistant Officer", grade: "TBD", years: "TBD", bio: "", school: "", personal: "" },
-    { slug: "assistant-2", name: "TBD", role: "Assistant Officer", grade: "TBD", years: "TBD", bio: "", school: "", personal: "" },
-    { slug: "assistant-3", name: "TBD", role: "Assistant Officer", grade: "TBD", years: "TBD", bio: "", school: "", personal: "" }
-  ];
-
-  /* --------------------------------------------------- committee reps
-     A representative from each grade sits on each committee, so no year
-     group finds out about a deadline the day it passes. Names stay TBD
-     until applications close. */
   const committees = [
     {
       name: "Program of Work",
-      brief: "Owns the chapter's Program of Work — the written plan SkillsUSA chapters build their year around — and tracks whether each goal actually got done in time for the Chapter Excellence Program submission.",
+      brief: "Owns the chapter's Program of Work (the written plan SkillsUSA chapters build their year around) and tracks whether each goal actually got done in time for the Chapter Excellence Program submission.",
       reps: [
         { grade: "Freshman (9th)",   name: "TBD" },
         { grade: "Sophomore (10th)", name: "TBD" },
@@ -306,7 +344,7 @@ window.SKILLSUSA = (function () {
     },
     {
       name: "Competition & Chapter Spirit",
-      brief: "Supports competitors through the season, runs the contest fair, and keeps the chapter's traditions going — the pin design, the shirt contest, and everything that makes a conference feel like ours.",
+      brief: "Supports competitors through the season, runs the contest fair, and keeps the chapter's traditions going: the pin design, the shirt contest, and everything that makes a conference feel like ours.",
       reps: [
         { grade: "Freshman (9th)",   name: "TBD" },
         { grade: "Sophomore (10th)", name: "TBD" },
@@ -315,10 +353,44 @@ window.SKILLSUSA = (function () {
     }
   ];
 
+  /* --------------------------------------------------------------- story
+     The scroll-through on the home page. Each beat holds the screen while
+     you scroll, then hands over to the next. Four is about the limit before
+     it starts to feel like being held hostage.
+
+     `mark` is the big ghosted numeral behind the type. Keep it short. */
+  const story = [
+    {
+      mark: "2014",
+      lead: "MHHS SkillsUSA was founded.",
+      body: "More than a decade of competitors out of Mountain House, in trade, " +
+            "technical and skilled service occupations."
+    },
+    {
+      mark: "20+",
+      lead: "Events competed at the national stage.",
+      body: "Contests the chapter has taken to the National Leadership and Skills " +
+            "Conference, judged by the industries those competitors were about " +
+            "to walk into."
+    },
+    {
+      mark: "~40",
+      lead: "Teams advancing to state each year.",
+      body: "Through the regional conference to the California State Leadership and " +
+            "Skills Conference in Ontario."
+    },
+    {
+      mark: "~13",
+      lead: "Teams advancing to nationals each year.",
+      body: "State medallists earning their place at the national conference in Atlanta."
+    }
+  ];
+
+
   /* ------------------------------------------------------------ framework
      The SkillsUSA Framework and its 17 Essential Elements, as published by
-     SkillsUSA. Every part of the program — competitions, recognition, the
-     Program of Work — is built on these. Source: skillsusa.org. */
+     SkillsUSA. Every part of the program (competitions, recognition, the
+     Program of Work) is built on these. Source: skillsusa.org. */
   const framework = [
     {
       id: "personal-skills",
@@ -349,7 +421,7 @@ window.SKILLSUSA = (function () {
     {
       id: "technical-skills",
       name: "Technical Skills Grounded in Academics",
-      brief: "The trade itself — and the maths, science and literacy underneath it.",
+      brief: "The trade itself, and the maths, science and literacy underneath it.",
       elements: [
         ["Computer and Technology Literacy", "Using the tools of a modern workplace competently."],
         ["Job-Specific Skills", "The technical skills of your own occupational area, to industry standard."],
@@ -364,10 +436,10 @@ window.SKILLSUSA = (function () {
      SkillsUSA sorts the Championships into three categories. Source:
      skillsusa.org "Categories and Descriptions".
 
-     The contests listed under each category are real SkillsUSA contests,
-     but WHICH of them MHHS enters depends on the CTE pathways offered at
-     the school and on the California contest list for the year. Confirm
-     with the advisor before publishing this as the chapter's offering. */
+     The contests listed under each category are real SkillsUSA contests.
+     Which of them MHHS actually runs depends on the California contest list
+     for the year, not on any pathway requirement. Members may enter whichever
+     contest they want. Confirm the year's list with the advisor. */
   const GUIDELINES = "https://www.skillsusa.org/competitions/skillsusa-championships/";
 
   const eventCategories = [
@@ -375,7 +447,7 @@ window.SKILLSUSA = (function () {
       id: "leadership",
       kind: "open",
       name: "Leadership",
-      brief: "Contests built on Framework skills that belong to no single trade — speaking, interviewing, running a meeting, documenting a project. Any member may enter regardless of pathway.",
+      brief: "Contests built on Framework skills that belong to no single trade: speaking, interviewing, running a meeting, documenting a project. Any member can enter one.",
       events: [
         { name: "Action Skills", team: "Individual", summary: "A five- to seven-minute demonstration of an occupational skill, using visual aids." },
         { name: "American Spirit", team: "Individual", summary: "A notebook documenting community service, patriotism and career and technical education projects." },
@@ -402,7 +474,7 @@ window.SKILLSUSA = (function () {
       id: "occupationally-related",
       kind: "open",
       name: "Occupationally Related",
-      brief: "Framework skills applied across career and technical education generally, rather than inside one programme. Open to members from any pathway.",
+      brief: "The technical knowledge every trade shares, rather than the skills of any one of them: shop maths, workplace safety, customer service, running a business.",
       events: [
         { name: "Related Technical Math", team: "Individual", summary: "Applied mathematics as it appears in technical trades." },
         { name: "Entrepreneurship", team: "Team", summary: "Build and present a business plan for a new venture." },
@@ -415,9 +487,9 @@ window.SKILLSUSA = (function () {
     },
     {
       id: "skilled-technical",
-      kind: "eligibility",
+      kind: "open",
       name: "Skilled and Technical",
-      brief: "The trade contests. To enter one you must meet the eligibility requirements of the matching occupational training programme — which is why the pathways offered at MHHS decide which of these the chapter can enter.",
+      brief: "The trade contests: welding, culinary, cyber security, cosmetology and the rest. Pick the one you want to get good at; no class or pathway is required to enter.",
       events: [
         { name: "Welding", team: "Individual", summary: "Assessed welds across processes and positions, judged to industry standard." },
         { name: "Welding Fabrication", team: "Team of 3", summary: "Fabricate a project from a drawing under time and quality constraints." },
@@ -478,7 +550,7 @@ window.SKILLSUSA = (function () {
       name: "Chapter Excellence Program (CEP)",
       type: "Chapter",
       summary: "The chapter's annual self-assessment against the SkillsUSA Framework. Chapters document their Program of Work across the year and submit at one of three levels; the strongest submissions are named Models of Excellence.",
-      window: "Submitted in the spring — confirm the year's deadline with the advisor",
+      window: "Submitted in the spring; confirm the year's deadline with the advisor",
       levels: [["Level 1", "Chapter meets the baseline standard"], ["Level 2", "Chapter documents Framework integration"], ["Level 3", "Chapter demonstrates measurable results"]],
       link: "https://www.skillsusa.org/programs/chapter-excellence-program/"
     },
@@ -516,42 +588,33 @@ window.SKILLSUSA = (function () {
     }
   ];
 
-  /* Written assessments offered at the state conference. In California these
-     are listed separately from the hands-on contests; the exact list changes
-     year to year, so confirm against the state contest list. */
-  const atcEvents = [
-    "Technical Information Assessments are written examinations offered at the California state conference only.",
-    "They cover the academic and technical knowledge behind a trade rather than its hands-on performance.",
-    "The list of assessments offered changes year to year — confirm against the California contest list before the selection form is due."
-  ];
-
   /* ------------------------------------------------------------ calendar
      Use YYYY-MM-DD. Anything in the past greys out automatically and drops
      to the bottom of the upcoming list.
 
      Entries marked `provisional: true` render as "date to be confirmed".
-     The two conference blocks below are NOT provisional — they are the
+     Add `dayTbd: true` when only the MONTH is known. The row then shows the
+     month and year with no day, and drops the countdown, rather than inventing
+     a precise date. Keep the `date` mid-month so it still sorts correctly.
+     The two conference blocks below are NOT provisional; they are the
      published 2026-27 dates from skillsusaca.org and skillsusa.org.
      Everything the chapter itself controls is still provisional. */
   const calendar = [
-    { date: "2026-09-04", title: "First chapter meeting", note: "Membership, pathway eligibility, the Framework, and what the year looks like.", kind: "Meeting", provisional: true },
-    { date: "2026-09-18", title: "Contest fair", note: "Every contest the chapter offers, explained by the members who compete in them.", kind: "Chapter event", provisional: true },
-    { date: "2026-10-02", title: "Program of Work adopted", note: "The chapter's written plan for the year — goals, projects and who owns each one.", kind: "Deadline", provisional: true },
-    { date: "2026-10-16", title: "Fall Leadership Conference", note: "A day of leadership development built on the SkillsUSA Framework, hosted by SkillsUSA California. Host site and date announced in the autumn.", kind: "Conference", provisional: true },
-    { date: "2026-11-13", title: "National membership submitted", note: "Members must be registered nationally before they can compete. This is the deadline the whole season hangs on.", kind: "Deadline", provisional: true },
-    { date: "2026-12-11", title: "Competition selection form due", note: "One form covers your contest choice and any recognition programme you are pursuing.", kind: "Deadline", provisional: true },
-    { date: "2027-02-05", title: "Region competition", note: "The qualifying round for the state conference. Region assignment comes from SkillsUSA California.", kind: "Conference", provisional: true },
-    { date: "2027-02-25", title: "State conference registration opens", note: "Registration for SLSC opens through SkillsUSA California.", kind: "Deadline", provisional: true },
-    { date: "2027-03-12", title: "State conference registration closes", note: "Late registrations are not generally accepted.", kind: "Deadline", provisional: true },
-    { date: "2027-04-08", title: "State Leadership & Skills Conference — Day 1", note: "Ontario, California. Opening ceremony at Toyota Arena; contests at the Ontario Convention Center. The 60th SLSC.", kind: "Conference" },
-    { date: "2027-04-11", title: "State Leadership & Skills Conference — Day 4", note: "Closing ceremony and awards. State gold medallists earn eligibility for the national conference.", kind: "Conference" },
-    { date: "2027-06-21", title: "National Leadership & Skills Conference", note: "Atlanta, Georgia — Georgia World Congress Center. June 21-25, for competitors who win gold at state.", kind: "Conference" }
+    { date: "2026-08-06", title: "Season opens", note: "First day of the school year.", kind: "Season" },
+    { date: "2026-09-15", span: "2026-09-16", title: "Club Fair", note: "The school-wide fair where every club recruits. Come and find the SkillsUSA table.", kind: "School event" },
+    { date: "2026-09-21", title: "First chapter meeting", note: "Membership, the Framework, and what the year looks like.", kind: "Meeting", provisional: true },
+    { date: "2027-02-05", title: "Regional Leadership and Skills Conference", short: "RLSC", note: "The qualifier for state. Region assignment comes from SkillsUSA California.", kind: "Conference", provisional: true },
+    { date: "2027-04-08", span: "2027-04-11", title: "State Leadership and Skills Conference", short: "SLSC", note: "Ontario. Opening ceremony at Toyota Arena, contests at the Ontario Convention Center. The 60th.", kind: "Conference" },
+    { date: "2027-05-04", title: "Skills Banquet", note: "Recognition, the officer handover, and the close of the chapter year. In the MHHS MPR, after school.", kind: "Chapter event" },
+    { date: "2027-05-27", title: "Season closes", note: "Last day of the chapter year.", kind: "Season" },
+    { date: "2027-06-21", span: "2027-06-25", title: "National Leadership and Skills Conference", short: "NLSC", note: "Atlanta, Georgia World Congress Center. For competitors who win gold at state.", kind: "Conference" }
   ];
+
 
   /* ------------------------------------------------------------ meetings
      Add a row each week. Slides and recap emails can be Google Drive links. */
   const meetings = [
-    // { date: "2026-09-04", title: "Meeting 1 — Welcome to SkillsUSA", slides: "", recap: "", note: "Membership, pathway eligibility, the Framework, the year ahead." }
+    // { date: "2026-09-04", title: "Meeting 1: Welcome to SkillsUSA", slides: "", recap: "", note: "Membership, the Framework, the year ahead." }
   ];
 
   /* ------------------------------------------------------------ spotlight */
@@ -560,34 +623,36 @@ window.SKILLSUSA = (function () {
   ];
 
   /* ------------------------------------------------------------ gallery
-     The chapter has no photographs yet. Each row below is a reserved slot,
-     rendered as a designed plate until a real photograph replaces it — the
+     Rows still marked "Reserved" are slots waiting on a photograph,
+     rendered as a designed plate until a real photograph replaces it. The
      caption describes what belongs there.
 
-     Format: ["slug", "caption", "album"]  ·  album is "chapter" or "conference"
+     Format: ["slug", "caption", "album"]  ·  album is "chapter", "rlsc",
+     "slsc" or "nlsc". The gallery filter buttons are the three conferences;
+     chapter photographs are reachable under "All".
 
      When a real photograph arrives: drop it in as <slug>.jpg (plus a thumb),
      add the slug to media.real above, and rewrite the caption to describe
      the photograph rather than the slot. */
   const gallery = [
     ["chapter-first-meeting",       "Reserved for the first chapter meeting of the year.", "chapter"],
-    ["chapter-officer-team",        "Reserved for the officer team portrait.", "chapter"],
+    ["chapter-officer-team",        "The 2026\u201327 officer team.", "chapter"],
     ["chapter-framework-workshop",  "Reserved for a Framework workshop session.", "chapter"],
     ["chapter-shop-floor",          "Reserved for members training in the shop and lab.", "chapter"],
     ["chapter-contest-prep",        "Reserved for contest preparation in the weeks before region.", "chapter"],
     ["chapter-opening-ceremonies",  "Reserved for the Opening and Closing Ceremonies team.", "chapter"],
     ["chapter-service-day",         "Reserved for a chapter community service day.", "chapter"],
     ["chapter-fundraiser",          "Reserved for a chapter fundraiser.", "chapter"],
-    ["flc-delegation",              "Reserved for the delegation at the Fall Leadership Conference.", "conference"],
-    ["flc-workshop",                "Reserved for a workshop at the Fall Leadership Conference.", "conference"],
-    ["slsc-delegation",             "Reserved for the full delegation at the State Leadership and Skills Conference.", "conference"],
-    ["slsc-opening-session",        "Reserved for the opening session at Toyota Arena.", "conference"],
-    ["slsc-contest-floor",          "Reserved for the contest floor at the Ontario Convention Center.", "conference"],
-    ["slsc-job-interview",          "Reserved for a competitor in the Job Interview contest.", "conference"],
-    ["slsc-medal-stage",            "Reserved for a medallist on the SLSC stage.", "conference"],
-    ["slsc-awards-crowd",           "Reserved for the chapter watching the awards session.", "conference"],
-    ["slsc-chapter-sign",           "Reserved for the chapter sign carried into awards.", "conference"],
-    ["nlsc-atlanta",                "Reserved for the national conference in Atlanta.", "conference"]
+    ["rlsc-delegation",             "Reserved for the delegation at the Regional Leadership and Skills Conference.", "rlsc"],
+    ["rlsc-contest-floor",          "Reserved for the contest floor at the regional conference.", "rlsc"],
+    ["slsc-delegation",             "The chapter delegation outside the State Leadership and Skills Conference in Ontario.", "slsc"],
+    ["slsc-opening-session",        "Reserved for the opening session at Toyota Arena.", "slsc"],
+    ["slsc-contest-floor",          "Reserved for the contest floor at the Ontario Convention Center.", "slsc"],
+    ["slsc-job-interview",          "Reserved for a competitor in the Job Interview contest.", "slsc"],
+    ["slsc-medal-stage",            "Reserved for a medallist on the SLSC stage.", "slsc"],
+    ["slsc-awards-crowd",           "Reserved for the chapter watching the awards session.", "slsc"],
+    ["slsc-chapter-sign",           "Reserved for the chapter sign carried into awards.", "slsc"],
+    ["nlsc-atlanta",                "The chapter at the national conference in Atlanta, outside the Georgia Ballroom.", "nlsc"]
   ].map(function (row) {
     return { slug: row[0], caption: row[1], album: row[2] };
   });
@@ -597,46 +662,34 @@ window.SKILLSUSA = (function () {
      chapter runs are marked TBD until the officer team decides them. */
   const faqs = [
     { g: "Joining the chapter", q: "What is SkillsUSA?", a: "SkillsUSA is a national career and technical student organization for students preparing for careers in trade, technical and skilled service occupations. It was founded in 1965 as the Vocational Industrial Clubs of America and took the name SkillsUSA in 1999." },
-    { g: "Joining the chapter", q: "What does SkillsUSA actually do?", a: "Three things, and they reinforce each other: it teaches employability skills through the SkillsUSA Framework, it runs the largest skills competition in the country, and it gives chapters a structure — the Program of Work — for running service and leadership projects across a school year." },
+    { g: "Joining the chapter", q: "What does SkillsUSA actually do?", a: "Three things, and they reinforce each other: it teaches employability skills through the SkillsUSA Framework, it runs the largest skills competition in the country, and it gives chapters a structure (the Program of Work) for running service and leadership projects across a school year." },
     { g: "Joining the chapter", q: "How do I join MHHS SkillsUSA?", a: "Complete the school-wide CTSO form, submit the chapter membership form, and pay dues before the deadline. Membership must be registered nationally before you are eligible to compete." },
-    { g: "Joining the chapter", q: "Do I have to be in a particular class or pathway?", a: "TBD — the chapter is confirming which MHHS career and technical education pathways it draws from. In general, SkillsUSA membership follows enrolment in a CTE programme, and the trade contests require eligibility in the matching programme. The Leadership and Occupationally Related contests are open more broadly." },
+    { g: "Joining the chapter", q: "Do I have to be in a particular class or pathway?", a: "No. Membership is open to any Mountain House student, and every contest is open to every member, so you can enter whichever one you want, trade contests included." },
     { g: "Joining the chapter", q: "What are the dues?", a: "TBD. SkillsUSA dues have a national and a state component, and chapters usually add a small local amount. The chapter will publish the exact figure before the membership deadline." },
-    { g: "Joining the chapter", q: "Can I be in SkillsUSA alongside sports or another club?", a: "Yes. Most members are. The season has a small number of fixed, non-negotiable dates — the membership deadline, region, and the state conference in April — and a lot of flexibility in between." },
+    { g: "Joining the chapter", q: "Can I be in SkillsUSA alongside sports or another club?", a: "Yes. Most members are. The season has a small number of fixed, non-negotiable dates (the membership deadline, region, and the state conference in April) and a lot of flexibility in between." },
     { g: "Joining the chapter", q: "Can I be a member without competing?", a: "Yes. Members who do not compete take part in meetings, service projects, fundraising, the Program of Work and conference delegations. Competition is one part of the programme, not the whole of it." },
 
-    { g: "Meetings & communication", q: "When does the chapter meet?", a: "TBD — day, time and room are set by the officer team and the advisor once the year's schedule is known." },
-    { g: "Meetings & communication", q: "Are meetings required?", a: "TBD. Most chapters make attendance a factor in competitor selection rather than a hard requirement, on the reasoning that a member who is not at meetings is usually not prepared either." },
+    { g: "Meetings & communication", q: "When does the chapter meet?", a: "There is no fixed weekly slot. Meetings are called as the season needs them and announced on Canvas and by email, so watch your school email rather than looking for a standing time." },
+    { g: "Meetings & communication", q: "Are meetings required?", a: "Yes. If you cannot make one, email a reasonable excuse at least 24 hours beforehand. If it is approved, missing that meeting is fine." },
     { g: "Meetings & communication", q: "How are announcements shared?", a: "Through email and Canvas. This website archives the same information, but email is where deadlines arrive first." },
     { g: "Meetings & communication", q: "What is the SkillsUSA Pledge?", a: "It opens chapter meetings, and it is worth reading rather than reciting: it is a promise to prepare through study and practice, to expect reward on the basis of service, and to treat your trade as something worth honouring. The full text is on the home page." },
 
     { g: "Competitions", q: "How many contests are there?", a: "113 at the national conference. The California state conference runs about 120 competitive events. Which of them MHHS enters depends on the pathways offered here and on the state contest list for the year." },
-    { g: "Competitions", q: "How does a competitor get to the national conference?", a: "Four rounds. Contests start at the chapter, advance to a region or district competition, then to the state conference each spring. State gold medallists earn eligibility for the national conference in June." },
-    { g: "Competitions", q: "Where and when is the state conference?", a: "The California State Leadership and Skills Conference is held in Ontario, California — opening and closing ceremonies at Toyota Arena, contests at the Ontario Convention Center. The 2027 conference runs 8-11 April and is the 60th SLSC." },
+    { g: "Competitions", q: "How does a competitor get to the national conference?", a: "Three conferences. Competitors qualify at the Regional Leadership and Skills Conference (RLSC), advance to the California State Leadership and Skills Conference (SLSC) each spring, and state gold medallists earn eligibility for the National Leadership and Skills Conference (NLSC) in June." },
+    { g: "Competitions", q: "Where and when is the state conference?", a: "The California State Leadership and Skills Conference is held in Ontario, California, with opening and closing ceremonies at Toyota Arena and contests at the Ontario Convention Center. The 2027 conference runs 8-11 April and is the 60th SLSC." },
     { g: "Competitions", q: "Where and when is the national conference?", a: "The National Leadership and Skills Conference is held at the Georgia World Congress Center in Atlanta. The 2027 championships run 21-25 June. The conference is scheduled to stay in Atlanta through 2033." },
-    { g: "Competitions", q: "What are the three contest categories?", a: "Leadership contests test Framework skills that belong to no single trade. Occupationally Related contests apply those skills across career and technical education generally. Skilled and Technical contests are the trade contests, and they require eligibility in the matching training programme." },
-    { g: "Competitions", q: "Can I enter more than one contest?", a: "TBD — this is a chapter decision, and it is usually limited by the conference schedule rather than by preference. Contests run concurrently, so two entries can simply collide." },
+    { g: "Competitions", q: "What are the three contest categories?", a: "Leadership contests test Framework skills that belong to no single trade. Occupationally Related contests cover the technical knowledge every trade shares. Skilled and Technical are the trade contests themselves. All three are open to any member, so pick whichever you want." },
+    { g: "Competitions", q: "Can I enter more than one contest?", a: "No. Each member competes in one contest. Contests run concurrently at a conference anyway, so a second entry would collide with your first." },
     { g: "Competitions", q: "Do I need to memorize the contest rules?", a: "Not memorize, but know them. Contest guidelines specify what you must bring, what you may not bring, how you will be scored and what will disqualify you. Competitors lose points every year on requirements they never read." },
-    { g: "Competitions", q: "What do I wear to compete?", a: "SkillsUSA has an official dress code, and it is enforced at the state and national conferences. Trade contests generally require the appropriate work attire and personal protective equipment for the occupation instead. Details go on Canvas before region." },
-
-    { g: "Recognition & service", q: "Are volunteer hours required?", a: "Not for membership. They matter if you are pursuing American Spirit, contributing to the chapter's Community Service entry, or building the chapter's Chapter Excellence Program submission." },
-    { g: "Recognition & service", q: "What is the Chapter Excellence Program?", a: "The chapter's annual self-assessment against the Framework. The chapter documents its Program of Work across the year and submits at one of three levels. It is the main way a chapter's whole year gets recognized rather than just its individual competitors." },
-    { g: "Recognition & service", q: "What is the easiest recognition to start with?", a: "The Statesman Award. Learn the creed, pledge, motto, colours and emblem, and be able to explain what SkillsUSA stands for. It costs nothing but attention and it is a real credential." },
-    { g: "Recognition & service", q: "What is Career Essentials?", a: "SkillsUSA's own employability-skills curriculum and credential. You work through the assessments at your own pace and earn a certification that belongs on a résumé and in an apprenticeship application." },
-
-    { g: "Leadership", q: "What officers does the chapter have?", a: "Seven: President, Vice President, Secretary, Treasurer, Reporter, Historian and Parliamentarian. Seven is also the size of an Opening and Closing Ceremonies team, and each officer's part in that ceremony is built around one point of the SkillsUSA emblem." },
-    { g: "Leadership", q: "How do I become an officer?", a: "TBD — the chapter will publish its election process. In most chapters, applications open in the spring and selected applicants are interviewed by the outgoing officers and the advisor." },
-    { g: "Leadership", q: "What is a committee representative?", a: "A member from each grade sitting on each of the chapter's three committees, so that no year group finds out about a deadline the day it passes. Applications are announced through Canvas and email." },
-    { g: "Leadership", q: "What is the Program of Work?", a: "The chapter's written plan for the year: its goals, the projects that serve them, and who owns each one. It is adopted early in the autumn and it is what the Chapter Excellence Program submission is eventually built from." },
-    { g: "Leadership", q: "How do I get more involved without competing?", a: "Apply for a committee seat, help run the contest fair, take on part of the Program of Work, document the year for the Historian, or work on the chapter's Community Service entry — which needs far more hands than competitors." }
+    { g: "Competitions", q: "What do I wear to compete?", a: "SkillsUSA has an official dress code, and it is enforced at the state and national conferences. Trade contests generally require the appropriate work attire and personal protective equipment for the occupation instead. Details are emailed out before region." }
   ];
 
   return {
     chapter: chapter, media: media, art: art, hero: hero,
-    advisors: advisors, stateOfficer: stateOfficer, regionRep: stateOfficer,
-    officers: officers, assistants: assistants, committees: committees,
-    framework: framework,
+    advisors: advisors, officers: officers, committees: committees,
+    story: story, framework: framework,
     eventCategories: eventCategories, guidelines: GUIDELINES,
-    recognitionEvents: recognitionEvents, atcEvents: atcEvents,
+    recognitionEvents: recognitionEvents,
     calendar: calendar, meetings: meetings, spotlights: spotlights,
     gallery: gallery, faqs: faqs
   };

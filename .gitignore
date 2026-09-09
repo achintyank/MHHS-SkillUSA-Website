@@ -1,1 +1,5 @@
 .DS_Store
+assets/img/incoming/
+
+# compiled subject-lift helper
+tools/.build/

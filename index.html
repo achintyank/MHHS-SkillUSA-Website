@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Welcome &mdash; MHHS SkillsUSA</title>
+<title>Welcome | MHHS SkillsUSA</title>
 <meta name="description" content="SkillsUSA at Mountain House High School. Competitions, the SkillsUSA Framework, chapter service and leadership, and how to join the chapter.">
 <meta name="theme-color" content="#071633">
-<meta property="og:title" content="Welcome — MHHS SkillsUSA">
+<meta property="og:title" content="Welcome | MHHS SkillsUSA">
 <meta property="og:description" content="SkillsUSA at Mountain House High School. Competitions, the SkillsUSA Framework, chapter service and leadership, and how to join the chapter.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/img/gallery/slsc-delegation.svg">
@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/site.css?v=bbeaea39">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -23,12 +23,13 @@
   <div class="masthead__inner">
     <a class="brand" href="index.html">MHHS <b>SkillsUSA</b> <span>Chapter</span></a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <ul class="nav" id="site-nav"><li class="nav__item"><a class="nav__link" href="index.html" aria-current="page">Home</a></li><li class="nav__item"><a class="nav__link" href="join.html">Join</a></li><li class="nav__item nav__item--has-menu"><button class="nav__link" type="button" aria-expanded="false">Our Chapter<i class="caret"></i></button><ul class="nav__menu"><li><a href="officers.html">Officers &amp; Advisors</a></li><li><a href="committee-reps.html">Committee Representatives</a></li><li><a href="spotlight.html">Member Spotlight</a></li></ul></li><li class="nav__item nav__item--has-menu"><button class="nav__link" type="button" aria-expanded="false">Competition<i class="caret"></i></button><ul class="nav__menu"><li><a href="competition.html">Hub overview</a></li><li><a href="competitions.html">All Contests</a></li><li><a href="recognition.html">Recognition Programmes</a></li><li><a href="service-hours.html">Service Hours</a></li><li><a href="checkpoints.html">Checkpoints &amp; Roadmaps</a></li></ul></li><li class="nav__item nav__item--has-menu"><button class="nav__link" type="button" aria-expanded="false">Chapter Life<i class="caret"></i></button><ul class="nav__menu"><li><a href="calendar.html">Calendar &amp; Deadlines</a></li><li><a href="chapter-events.html">Events &amp; Volunteering</a></li><li><a href="meetings.html">Meetings &amp; Recaps</a></li><li><a href="traditions.html">Chapter Traditions</a></li><li><a href="gallery.html">Photo Gallery</a></li></ul></li><li class="nav__item"><a class="nav__link" href="framework.html">Framework</a></li><li class="nav__item"><a class="nav__link" href="faq.html">FAQ</a></li></ul>
+    <ul class="nav" id="site-nav"><li class="nav__item"><a class="nav__link" href="index.html" aria-current="page">Home</a></li><li class="nav__item"><a class="nav__link" href="join.html">Join</a></li><li class="nav__item"><a class="nav__link" href="officers.html">Our Officers</a></li><li class="nav__item"><a class="nav__link" href="competition.html">Competition</a></li><li class="nav__item nav__item--has-menu"><button class="nav__link" type="button" aria-expanded="false">Chapter Life<i class="caret"></i></button><ul class="nav__menu"><li><a href="calendar.html">Calendar &amp; Deadlines</a></li><li><a href="banquet.html">Skills Banquet</a></li><li><a href="gallery.html">Photo Gallery</a></li></ul></li></ul>
   </div>
 </header>
 
 <main id="main">
 
+<div class="hero-track" data-hero-track>
 <section class="hero" data-hero>
   <img class="hero__still" src="assets/img/hero/delegation-2048.jpg"
        alt="" fetchpriority="high" decoding="async">
@@ -48,25 +49,13 @@
     </div>
   </div>
 </section>
+</div>
 
-<section class="band band--navy">
-  <div class="shell">
-    <div class="split split--top">
-      <div data-reveal>
-        <p class="eyebrow">Since 1965</p>
-        <h2>Founded as the Vocational Industrial Clubs of America.</h2>
-      </div>
-      <div class="stack" data-reveal style="--delay:120ms">
-        <p>SkillsUSA took its present name in 1999, but the job has not changed: preparing
-           students for careers in trade, technical and skilled service occupations, and
-           giving them a way to prove what they can do.</p>
-        <p>Our chapter is one part of that. We compete in the SkillsUSA Championships, we run
-           the projects in our Program of Work, and we spend a lot of the year turning a skill
-           somebody is learning in a classroom into something an employer would recognise.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="story-track" data-story-track>
+  <section class="story">
+    <div class="story__stage" data-render-story></div>
+  </section>
+</div>
 
 
 <section class="marquee" aria-hidden="true">
@@ -81,15 +70,24 @@
 
 <section class="band band--navy band--tight">
   <div class="shell shell--wide">
-    <div class="head" data-reveal style="margin-bottom:2.5rem">
-      <p class="eyebrow">Competition &nbsp;&#10095;&nbsp; three categories, 113 national contests</p>
-      <h2>Every contest sits in one of <span class="it">three</span> categories.</h2>
-    </div>
-    <div class="cine" data-render-cine></div>
-    <div class="btn-row">
-      <a class="btn btn--ghost" href="competitions.html">Browse the contests</a>
-    </div>
+    <figure class="officers-cta" data-officers-cta>
+      <img class="officers-cta__bg" src="assets/img/gallery/chapter-officer-team.jpg"
+           alt="The 2026&ndash;2027 MHHS SkillsUSA officer team." loading="lazy" decoding="async">
+      <span class="officers-cta__scrim"></span>
+
+      <figcaption class="officers-cta__type">
+        <!-- Hollow white, no fill. The cursor-painted gradient copy lived here
+             as a second stacked span with class officers-cta__line--fill; its
+             CSS and the officersCta() handler in site.js are both still in
+             place, so restoring it is one line of markup. -->
+        <span class="officers-cta__line officers-cta__line--out"><span class="oc-a">Our</span> <span class="oc-b">Officers</span></span>
+      </figcaption>
+    </figure>
   </div>
+</section>
+
+<section class="countdown">
+  <div class="shell countdown__inner" data-render-countdown></div>
 </section>
 
 <section class="collage">
@@ -101,18 +99,23 @@
     <div class="split split--top">
       <div data-reveal>
         <p class="eyebrow">The chapter at a glance</p>
-        <h2>A new chapter, in its <span class="it">first</span> season.</h2>
+        <h2>Competing out of Mountain House since <span class="it">2014</span>.</h2>
       </div>
       <div data-reveal style="--delay:120ms">
         <dl class="facts" style="margin:0">
-          <div><dt>Officer team</dt><dd>Seven roles &mdash; President, Vice President, Secretary,
-            Treasurer, Reporter, Historian and Parliamentarian &mdash; plus chapter advisors.</dd></div>
+          <div><dt>Founded</dt><dd>2014. More than a decade of competitors out of Mountain
+            House.</dd></div>
+          <div><dt>Officer team</dt><dd>Ten seats: President, two Vice Presidents,
+            Secretary, Treasurer, three Directors of Events, a Competition Manager and
+            Social Media, plus chapter advisors.</dd></div>
+          <div><dt>Advancing each year</dt><dd>Around 40 teams to the state conference, and
+            around 13 on to nationals.</dd></div>
           <div><dt>The Framework</dt><dd>Three components and 17 Essential Elements, which every
             part of the programme is built on.</dd></div>
           <div><dt>Contests</dt><dd>113 at the national conference; around 120 competitive events
             at the California state conference.</dd></div>
-          <div><dt>Levels of competition</dt><dd>Chapter, then region, then the California State
-            Leadership and Skills Conference, then the National Leadership and Skills
+          <div><dt>Levels of competition</dt><dd>The regional conference, then the California
+            State Leadership and Skills Conference, then the National Leadership and Skills
             Conference.</dd></div>
           <div><dt>Recognition</dt><dd>The Chapter Excellence Program, American Spirit, Career
             Essentials and the Statesman Award.</dd></div>
@@ -126,12 +129,12 @@
   <div class="shell">
     <div class="head" data-reveal>
       <p class="eyebrow">What this chapter is trying to get right</p>
-      <h2>Three commitments for the first year.</h2>
+      <h2>Three commitments for this year.</h2>
     </div>
     <ul class="planks" data-stagger="90">
       <li>
         <div>
-          <h3>Make the first season legible</h3>
+          <h3>Keep the season legible</h3>
           <p>Nobody should have to guess how any of this works. The competition ladder, the
              deadlines and the paperwork are written down on this site rather than passed
              along by rumour, and the dates that matter are on one page.</p>
@@ -140,33 +143,20 @@
       <li>
         <div>
           <h3>Open the programme past the trade contests</h3>
-          <p>The Skilled and Technical contests need pathway eligibility, but the Leadership and
-             Occupationally Related contests do not. Any member can compete in something, and
-             every member should know that before the selection form is due.</p>
+          <p>No contest here is gated behind a class or a pathway, the trade contests
+             included. Any member can enter whichever contest they want, and every member
+             should know that before the selection form is due.</p>
         </div>
       </li>
       <li>
         <div>
           <h3>Make the conferences affordable</h3>
-          <p>Fundraising exists to bring down the cost of getting a delegation to Ontario in April.
-             Qualifying should be a question of preparation, not of what a family can spend.</p>
+          <p>Travel to the state conference in Ontario runs about $300 a competitor, and
+             fundraising exists to bring that number down. Qualifying should be a question of
+             preparation, not of what a family can spend.</p>
         </div>
       </li>
     </ul>
-  </div>
-</section>
-
-<section class="surfer">
-  <div class="surfer__rail">
-    <div class="surfer__viewport">
-      <div class="surfer__title">
-        <h2>The year<br>in frames<sup>(16)</sup></h2>
-      </div>
-      <div class="surfer__scene">
-        <div class="surfer__track" data-render-surfer></div>
-      </div>
-      <div class="surfer__hint">Scroll to travel &nbsp;&#10095;&nbsp; hover to pull forward</div>
-    </div>
   </div>
 </section>
 
@@ -174,71 +164,6 @@
   <div class="shell center">
     <div class="btn-row" style="justify-content:center;margin-top:0">
       <a class="btn btn--ghost" href="gallery.html">See the full gallery</a>
-    </div>
-  </div>
-</section>
-
-<section class="countdown">
-  <div class="shell countdown__inner" data-render-countdown></div>
-</section>
-
-<section class="band band--navy band--navy-2" id="calendar">
-  <div class="shell">
-    <div class="head" data-reveal>
-      <p class="eyebrow">What is coming up</p>
-      <h2>The dates that decide your season.</h2>
-      <p class="lede">Two of these are fixed and published. The membership deadline is the one
-         that quietly ends seasons &mdash; a member who is not registered nationally cannot
-         compete, however well prepared they are.</p>
-    </div>
-    <div class="upcoming" data-render-calendar="5" data-reveal></div>
-    <div class="btn-row">
-      <a class="btn btn--ghost" href="calendar.html">Full calendar &amp; live feed</a>
-    </div>
-  </div>
-</section>
-
-<section class="band band--navy" id="join">
-  <div class="shell">
-    <div class="head" data-reveal>
-      <p class="eyebrow">Requirements &amp; how to join</p>
-      <h2>Three steps, in this order.</h2>
-      <p class="lede">Membership runs through the school&rsquo;s career and technical education
-         programme and has to be registered nationally before the deadline. Late registrations
-         generally cannot be accepted, and national membership is what makes you eligible to
-         compete at all.</p>
-    </div>
-    <ol class="steps" data-stagger="90">
-      <li>
-        <div>
-          <h3>Check that you are eligible</h3>
-          <p>SkillsUSA membership follows enrolment in a career and technical education
-             programme. Which MHHS pathways this chapter draws from is being confirmed &mdash;
-             ask the advisor before the membership deadline if you are not sure whether your
-             schedule qualifies.</p>
-        </div>
-      </li>
-      <li>
-        <div>
-          <h3>Complete the school-wide CTSO form</h3>
-          <p>The form is sent to your school email at the start of the year. Select
-             <strong>SkillsUSA</strong> when it asks which organization you are joining.</p>
-          <div class="btn-row"><span data-form="ctso" data-label="School-wide CTSO form"></span></div>
-        </div>
-      </li>
-      <li>
-        <div>
-          <h3>Submit the membership form and dues</h3>
-          <p>Complete the chapter membership form and pay dues before the deadline. SkillsUSA
-             dues have a national and a state component; the chapter publishes the exact figure
-             each year.</p>
-          <div class="btn-row"><span data-form="membership" data-label="MHHS SkillsUSA membership form"></span></div>
-        </div>
-      </li>
-    </ol>
-    <div class="btn-row">
-      <a class="btn" href="join.html">Full joining guide</a>
-      <a class="btn btn--ghost" href="faq.html">Questions first</a>
     </div>
   </div>
 </section>
@@ -251,6 +176,23 @@
   </div>
 </section>
 
+<section class="band band--navy" id="faq">
+  <div class="shell shell--wide">
+    <div class="head" data-reveal>
+      <p class="eyebrow">Questions</p>
+      <h2>The things members ask most.</h2>
+      <p class="lede">Answers about SkillsUSA itself are accurate. Answers about how this
+         chapter runs are marked TBD until the officer team decides them, which is
+         more useful than a confident guess.</p>
+    </div>
+    <div data-render-faqs data-stagger="40"></div>
+    <div class="btn-row">
+      <span data-form="questions" data-label="Questions &amp; support form"></span>
+      <a class="btn btn--ghost" href="officers.html">Who to contact</a>
+    </div>
+  </div>
+</section>
+
 <section class="band band--navy">
   <div class="shell">
     <div class="split split--top">
@@ -258,17 +200,16 @@
         <p class="eyebrow">Stay informed</p>
         <h2>This website is one of <span class="it">four</span> places to look.</h2>
         <p>Canvas, chapter announcements, your school email and what gets said at meetings all
-           carry information that never fits on a webpage. Check them regularly &mdash; especially
-           email, which is where deadlines arrive first.</p>
+           carry information that never fits on a webpage. Check them regularly, and email
+           especially, since that is where deadlines arrive first.</p>
         <div class="socials mt-2" data-render-socials></div>
       </div>
       <div data-reveal style="--delay:120ms">
         <div class="grid grid--2" data-stagger="70">
-          <a class="card" href="framework.html">
-            <p class="card__n">Foundation</p>
-            <h3>The SkillsUSA Framework</h3>
-            <p>Three components, 17 Essential Elements, and why every part of the programme
-               is built on them.</p>
+          <a class="card" href="banquet.html">
+            <p class="card__n">Season</p>
+            <h3>The Skills Banquet</h3>
+            <p>Recognition, the officer handover, and the members who carried the year.</p>
           </a>
           <a class="card" href="competition.html">
             <p class="card__n">Hub</p>
@@ -279,14 +220,14 @@
           <a class="card" href="officers.html">
             <p class="card__n">People</p>
             <h3>Officers &amp; advisors</h3>
-            <p>Who to email, and what each of the seven officer roles is actually
+            <p>Who to email, and what each of the ten officer seats is actually
                responsible for.</p>
           </a>
-          <a class="card" href="faq.html">
-            <p class="card__n">Answers</p>
-            <h3>FAQ &amp; support</h3>
-            <p>The questions members ask most, answered honestly &mdash; including the ones
-               still marked TBD.</p>
+          <a class="card" href="calendar.html">
+            <p class="card__n">Dates</p>
+            <h3>Calendar &amp; deadlines</h3>
+            <p>Every date in the season, with the fixed ones marked apart from the
+               provisional ones.</p>
           </a>
         </div>
       </div>
@@ -307,7 +248,7 @@
            the 2026&ndash;2027 season.</p>
         <div class="socials mt-2" data-render-socials></div>
       </div>
-      <div><h4>The chapter</h4><ul><li><a href="index.html">About MHHS SkillsUSA</a></li><li><a href="join.html">How to join</a></li><li><a href="officers.html">Officers &amp; advisors</a></li><li><a href="committee-reps.html">Committee representatives</a></li><li><a href="spotlight.html">Member spotlight</a></li></ul></div><div><h4>Competing</h4><ul><li><a href="competition.html">Competition hub</a></li><li><a href="competitions.html">All contests</a></li><li><a href="recognition.html">Recognition programmes</a></li><li><a href="service-hours.html">Service hours</a></li><li><a href="checkpoints.html">Checkpoints &amp; roadmaps</a></li></ul></div><div><h4>Chapter life</h4><ul><li><a href="calendar.html">Calendar</a></li><li><a href="chapter-events.html">Events &amp; volunteering</a></li><li><a href="meetings.html">Meetings &amp; recaps</a></li><li><a href="traditions.html">Traditions</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="faq.html">FAQ</a></li></ul></div><div><h4>Official SkillsUSA</h4><ul><li><a href="framework.html">The Framework</a></li><li><a href="https://www.skillsusaca.org/" target="_blank" rel="noopener">SkillsUSA California</a></li><li><a href="https://www.skillsusa.org/" target="_blank" rel="noopener">SkillsUSA National</a></li></ul></div>
+      <div><h4>The chapter</h4><ul><li><a href="index.html">About MHHS SkillsUSA</a></li><li><a href="join.html">How to join</a></li><li><a href="officers.html">Our officers</a></li><li><a href="committee-reps.html">Committee representatives</a></li><li><a href="spotlight.html">Member spotlight</a></li></ul></div><div><h4>Competing</h4><ul><li><a href="competition.html">Competition hub</a></li><li><a href="competitions.html">All contests</a></li><li><a href="recognition.html">Recognition programmes</a></li><li><a href="service-hours.html">Service hours</a></li><li><a href="checkpoints.html">Contest roadmap</a></li></ul></div><div><h4>Chapter life</h4><ul><li><a href="calendar.html">Calendar</a></li><li><a href="banquet.html">Skills banquet</a></li><li><a href="chapter-events.html">Events &amp; volunteering</a></li><li><a href="meetings.html">Meetings &amp; recaps</a></li><li><a href="traditions.html">Traditions</a></li><li><a href="gallery.html">Gallery</a></li></ul></div><div><h4>Official SkillsUSA</h4><ul><li><a href="https://www.skillsusaca.org/" target="_blank" rel="noopener">SkillsUSA California</a></li><li><a href="https://www.skillsusa.org/" target="_blank" rel="noopener">SkillsUSA National</a></li></ul></div>
     </div>
     <div class="foot__base">
       <span>Mountain House High School &middot; Lammersville Unified School District</span>
@@ -318,9 +259,9 @@
 </footer>
 
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/site.js"></script>
-<script src="assets/js/motion.js"></script>
-<script src="assets/js/hero.js"></script>
+<script src="assets/js/data.js?v=cadd9adb"></script>
+<script src="assets/js/site.js?v=f32317c5"></script>
+<script src="assets/js/motion.js?v=a9625879"></script>
+<script src="assets/js/hero.js?v=6bde230c"></script>
 </body>
 </html>
