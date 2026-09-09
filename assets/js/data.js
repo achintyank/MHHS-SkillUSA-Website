@@ -205,14 +205,14 @@ window.SKILLSUSA = (function () {
       slug: "advisor-1",
       name: "TBD",
       role: "Lead SkillsUSA Chapter Advisor",
-      bio: "The lead advisor holds the chapter charter, approves competition entries, signs off on service hours, and travels with the delegation to the State Leadership and Skills Conference.",
+      bio: "Holds the chapter charter and supervises all chapter operations.",
       email: ""
     },
     {
       slug: "advisor-2",
       name: "TBD",
-      role: "SkillsUSA Chapter Advisor",
-      bio: "The second advisor works with the officer team on meetings, the Program of Work, and the chapter's Chapter Excellence Program submission.",
+      role: "Lead SkillsUSA Chapter Advisor",
+      bio: "Holds the chapter charter and supervises all chapter operations.",
       email: ""
     }
   ];
