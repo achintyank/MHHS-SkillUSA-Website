@@ -59,10 +59,10 @@ INBOX = os.path.join(ROOT, "assets", "img", "incoming")
 # A portrait photo in a wide letterbox row loses most of its height, so cropping
 # to the band that actually matters beats letting object-fit choose.
 CROPS = {
-    # Hotel-room build session: the TV with the code and the seated programmer.
+    # Build session: the TV with the code and the seated programmer.
     # The standing figure spans nearly the full height and cannot fit a strip
     # this wide; see the note in the commit.
-    "chapter-shop-floor": (0.00, 0.30, 1.00, 0.95),
+    "chapter-build-night": (0.00, 0.30, 1.00, 0.95),
     # Officer team against a wall. KEEP the empty band above their heads:
     # the headline sits in it. Trimming that wall is what pushed the type down
     # onto the back row's faces. Only the sides come in.

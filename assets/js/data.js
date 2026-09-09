@@ -108,20 +108,20 @@ window.SKILLSUSA = (function () {
      When every slot has a photograph, set ext to "jpg" and empty `real`. */
   const media = {
     ext: "svg",   // "svg" = generated plates · "jpg" = real photographs
-    real: ["chapter-officer-team", "chapter-shop-floor", "competition-manager", "director-of-events-1", "director-of-events-2", "director-of-events-3", "nlsc-atlanta", "president", "secretary", "slsc-delegation", "social-media", "treasurer", "vice-president-1", "vice-president-2"],     // slugs that already have a real .jpg, whatever `ext` says
+    real: ["chapter-officer-team", "chapter-build-night", "competition-manager", "director-of-events-1", "director-of-events-2", "director-of-events-3", "nlsc-atlanta", "president", "secretary", "slsc-delegation", "social-media", "treasurer", "vice-president-1", "vice-president-2"],     // slugs that already have a real .jpg, whatever `ext` says
 
     // The three-column pinned collage on the home page.
     collage: {
       left:  ["slsc-delegation", "chapter-service-day", "slsc-medal-stage",
               "chapter-framework-workshop", "rlsc-contest-floor"],
-      pin:   ["slsc-awards-crowd", "chapter-officer-team", "slsc-contest-floor"],
+      pin:   ["slsc-awards-crowd", "chapter-officer-team", "chapter-build-night"],
       right: ["chapter-first-meeting", "slsc-job-interview", "nlsc-atlanta",
               "slsc-chapter-sign", "chapter-fundraiser"]
     },
 
     // The 3D card track further down the home page.
     surfer: [
-      "slsc-delegation", "chapter-officer-team", "slsc-medal-stage", "chapter-shop-floor",
+      "slsc-delegation", "chapter-officer-team", "slsc-medal-stage", "chapter-build-night",
       "slsc-awards-crowd", "chapter-contest-prep", "slsc-contest-floor", "rlsc-delegation",
       "chapter-service-day", "slsc-job-interview", "slsc-chapter-sign", "chapter-opening-ceremonies",
       "rlsc-contest-floor", "nlsc-atlanta", "chapter-framework-workshop", "chapter-fundraiser"
@@ -605,7 +605,7 @@ window.SKILLSUSA = (function () {
     { date: "2026-09-21", title: "First chapter meeting", note: "Membership, the Framework, and what the year looks like.", kind: "Meeting", provisional: true },
     { date: "2027-02-05", title: "Regional Leadership and Skills Conference", short: "RLSC", note: "The qualifier for state. Region assignment comes from SkillsUSA California.", kind: "Conference", provisional: true },
     { date: "2027-04-08", span: "2027-04-11", title: "State Leadership and Skills Conference", short: "SLSC", note: "Ontario. Opening ceremony at Toyota Arena, contests at the Ontario Convention Center. The 60th.", kind: "Conference" },
-    { date: "2027-05-04", title: "Skills Banquet", note: "Recognition, the officer handover, and the close of the chapter year. In the MHHS MPR, after school.", kind: "Chapter event" },
+    { date: "2027-05-04", title: "Skills Banquet", note: "Recognition, the officer handover, and the close of the chapter year. In the MHHS MPR, after school.", kind: "Chapter event", provisional: true },
     { date: "2027-05-27", title: "Season closes", note: "Last day of the chapter year.", kind: "Season" },
     { date: "2027-06-21", span: "2027-06-25", title: "National Leadership and Skills Conference", short: "NLSC", note: "Atlanta, Georgia World Congress Center. For competitors who win gold at state.", kind: "Conference" }
   ];
@@ -638,7 +638,7 @@ window.SKILLSUSA = (function () {
     ["chapter-first-meeting",       "Reserved for the first chapter meeting of the year.", "chapter"],
     ["chapter-officer-team",        "The 2026\u201327 officer team.", "chapter"],
     ["chapter-framework-workshop",  "Reserved for a Framework workshop session.", "chapter"],
-    ["chapter-shop-floor",          "Reserved for members training in the shop and lab.", "chapter"],
+    ["chapter-build-night",          "A build session on the road, a hotel TV borrowed as a monitor.", "chapter"],
     ["chapter-contest-prep",        "Reserved for contest preparation in the weeks before region.", "chapter"],
     ["chapter-opening-ceremonies",  "Reserved for the Opening and Closing Ceremonies team.", "chapter"],
     ["chapter-service-day",         "Reserved for a chapter community service day.", "chapter"],

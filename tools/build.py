@@ -1528,7 +1528,7 @@ BANQUET = pagehead(
          the members who earned them, and the year that got everybody there.</p>
     </div>
     <dl class="facts" data-reveal>
-      <div><dt>Date</dt><dd>Tuesday 4 May 2027.</dd></div>
+      <div><dt>Date</dt><dd>4 May 2027, to be confirmed.</dd></div>
       <div><dt>Time</dt><dd>After school. The exact start time is confirmed by the
         officer team closer to the date.</dd></div>
       <div><dt>Venue</dt><dd>The MPR at Mountain House High School,
@@ -1602,7 +1602,7 @@ PAGES = [
      "The MHHS SkillsUSA end-of-season banquet: recognition, the officer handover, and the members who carried the year.",
      BANQUET + WORDMARK_CLOSE),
     ("gallery.html", "Photo gallery",
-     "Photographs from MHHS SkillsUSA: conferences, meetings, service projects and the shop floor.",
+     "Photographs from MHHS SkillsUSA: conferences, meetings, service projects and the work behind them.",
      GALLERY + WORDMARK_CLOSE),
     ("traditions.html", "Traditions",
      "The chapter pin, the shirt design contest and the chapter archive: the traditions a first-year chapter gets to choose.",
